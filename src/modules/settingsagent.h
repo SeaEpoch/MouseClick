@@ -41,6 +41,12 @@ public:
     double RandomIntervalTime() const;
     void setRandomIntervalTime(const double random_interval_time);
 
+    bool EnableRandomOffset() const;
+    void setEnableRandomOffset(bool enable_random_offset);
+
+    int RandomOffsetDistance() const;
+    void setRandomOffsetDistance(const int random_offset_distance);
+
     bool EnableMemoryConfiguration() const;
     void setEnableMemoryConfiguration(bool memory_configuration);
     /***********************************/
@@ -76,6 +82,8 @@ private:
     const double _DEFAULT_INTERVALTIME = 0.01;
     const bool _DEFAULT_RANDOMINTERVAL = false;
     const double _DEFAULT_RANDOMINTERVALTIME = 0.02;
+    const bool _DEFAULT_RANDOMOFFSET = false;
+    const int _DEFAULT_RANDOMOFFSETDISTANCE = 0;
     const bool _DEFAULT_MEMORYCONFIGURATION = false;
 };
 

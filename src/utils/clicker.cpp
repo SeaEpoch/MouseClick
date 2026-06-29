@@ -13,7 +13,9 @@ Clicker::Clicker(QObject* parent)
       _btn_type(Qt::LeftButton),
       _interval(10),
       _random_interval_flag(false),
-      _max_random_interval(20)
+      _max_random_interval(20),
+      _random_offset_flag(false),
+      _max_random_offset(0)
 {}
 
 Clicker::~Clicker()
@@ -23,12 +25,16 @@ Clicker::~Clicker()
 Clicker& Clicker::initParameters(Qt::MouseButton btnType,
                                  int interval,
                                  bool randomIntervalFlag,
-                                 int maxRandomInterval)
+                                 int maxRandomInterval,
+                                 bool randomOffsetFlag,
+                                 int maxRandomOffset)
 {
     _btn_type = btnType;
     _interval = interval;
     _random_interval_flag = randomIntervalFlag;
     _max_random_interval = maxRandomInterval;
+    _random_offset_flag = randomOffsetFlag;
+    _max_random_offset = maxRandomOffset;
 
     return (*this);
 }
@@ -86,13 +92,50 @@ void Clicker::msleep(int ms)
 }
 
 #if defined(Q_OS_WIN)
+POINT Clicker::randomClickPosition(const POINT& base_pos) const
+{
+    if (!_random_offset_flag || _max_random_offset <= 0) {
+        return base_pos;
+    }
+
+    int dx = 0;
+    int dy = 0;
+    const int max_offset_squared = _max_random_offset * _max_random_offset;
+    do {
+        dx = QRandomGenerator::global()->bounded(-_max_random_offset, _max_random_offset + 1);
+        dy = QRandomGenerator::global()->bounded(-_max_random_offset, _max_random_offset + 1);
+    } while (dx * dx + dy * dy > max_offset_squared);
+
+    POINT click_pos {base_pos.x + dx, base_pos.y + dy};
+
+    const int min_x = GetSystemMetrics(SM_XVIRTUALSCREEN);
+    const int min_y = GetSystemMetrics(SM_YVIRTUALSCREEN);
+    const int max_x = min_x + GetSystemMetrics(SM_CXVIRTUALSCREEN) - 1;
+    const int max_y = min_y + GetSystemMetrics(SM_CYVIRTUALSCREEN) - 1;
+
+    click_pos.x = qBound(min_x, click_pos.x, max_x);
+    click_pos.y = qBound(min_y, click_pos.y, max_y);
+
+    return click_pos;
+}
+
+void Clicker::clickAtPosition(DWORD down_event, DWORD up_event, const POINT& base_pos, const POINT& click_pos) const
+{
+    SetCursorPos(click_pos.x, click_pos.y);
+    mouse_event(down_event | up_event, click_pos.x, click_pos.y, 0, 0);
+
+    if (click_pos.x != base_pos.x || click_pos.y != base_pos.y) {
+        SetCursorPos(base_pos.x, base_pos.y);
+    }
+}
+
 void Clicker::leftClick()
 {
     POINT mouse_pos;
 
     while (_run) {
         GetCursorPos(&mouse_pos);
-        mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, mouse_pos.x, mouse_pos.y, 0, 0);
+        clickAtPosition(MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP, mouse_pos, randomClickPosition(mouse_pos));
         msleep(_interval);
     }
 }
@@ -103,7 +146,7 @@ void Clicker::rightClick()
 
     while (_run) {
         GetCursorPos(&mouse_pos);
-        mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, mouse_pos.x, mouse_pos.y, 0, 0);
+        clickAtPosition(MOUSEEVENTF_RIGHTDOWN, MOUSEEVENTF_RIGHTUP, mouse_pos, randomClickPosition(mouse_pos));
         msleep(_interval);
     }
 }
@@ -114,7 +157,7 @@ void Clicker::middleClick()
 
     while (_run) {
         GetCursorPos(&mouse_pos);
-        mouse_event(MOUSEEVENTF_MIDDLEDOWN | MOUSEEVENTF_MIDDLEUP, mouse_pos.x, mouse_pos.y, 0, 0);
+        clickAtPosition(MOUSEEVENTF_MIDDLEDOWN, MOUSEEVENTF_MIDDLEUP, mouse_pos, randomClickPosition(mouse_pos));
         msleep(_interval);
     }
 }
@@ -125,7 +168,7 @@ void Clicker::leftRandomClick()
 
     while (_run) {
         GetCursorPos(&mouse_pos);
-        mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, mouse_pos.x, mouse_pos.y, 0, 0);
+        clickAtPosition(MOUSEEVENTF_LEFTDOWN, MOUSEEVENTF_LEFTUP, mouse_pos, randomClickPosition(mouse_pos));
         msleep(QRandomGenerator::global()->bounded(0, _max_random_interval));
     }
 }
@@ -136,7 +179,7 @@ void Clicker::rightRandomClick()
 
     while (_run) {
         GetCursorPos(&mouse_pos);
-        mouse_event(MOUSEEVENTF_RIGHTDOWN | MOUSEEVENTF_RIGHTUP, mouse_pos.x, mouse_pos.y, 0, 0);
+        clickAtPosition(MOUSEEVENTF_RIGHTDOWN, MOUSEEVENTF_RIGHTUP, mouse_pos, randomClickPosition(mouse_pos));
         msleep(QRandomGenerator::global()->bounded(0, _max_random_interval));
     }
 }
@@ -147,7 +190,7 @@ void Clicker::middleRandomClick()
 
     while (_run) {
         GetCursorPos(&mouse_pos);
-        mouse_event(MOUSEEVENTF_MIDDLEDOWN | MOUSEEVENTF_MIDDLEUP, mouse_pos.x, mouse_pos.y, 0, 0);
+        clickAtPosition(MOUSEEVENTF_MIDDLEDOWN, MOUSEEVENTF_MIDDLEUP, mouse_pos, randomClickPosition(mouse_pos));
         msleep(QRandomGenerator::global()->bounded(0, _max_random_interval));
     }
 }

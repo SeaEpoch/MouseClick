@@ -102,6 +102,26 @@ void SettingsAgent::setRandomIntervalTime(const double random_interval_time)
     _config["RandomIntervalTime"] = random_interval_time;
 }
 
+bool SettingsAgent::EnableRandomOffset() const
+{
+    return _config["EnableRandomOffset"].toBool();
+}
+
+void SettingsAgent::setEnableRandomOffset(bool enable_random_offset)
+{
+    _config["EnableRandomOffset"] = enable_random_offset;
+}
+
+int SettingsAgent::RandomOffsetDistance() const
+{
+    return _config["RandomOffsetDistance"].toInt();
+}
+
+void SettingsAgent::setRandomOffsetDistance(const int random_offset_distance)
+{
+    _config["RandomOffsetDistance"] = random_offset_distance;
+}
+
 bool SettingsAgent::EnableMemoryConfiguration() const
 {
     return _config["EnableMemoryConfiguration"].toBool();
@@ -159,6 +179,8 @@ SettingsAgent::SettingsAgent(QObject *parent)
     _config["IntervalTime"] = settings.value("IntervalTime", _DEFAULT_INTERVALTIME);
     _config["EnableRandomInterval"] = settings.value("EnableRandomInterval", _DEFAULT_RANDOMINTERVAL);
     _config["RandomIntervalTime"] = settings.value("RandomIntervalTime", _DEFAULT_RANDOMINTERVALTIME);
+    _config["EnableRandomOffset"] = settings.value("EnableRandomOffset", _DEFAULT_RANDOMOFFSET);
+    _config["RandomOffsetDistance"] = settings.value("RandomOffsetDistance", _DEFAULT_RANDOMOFFSETDISTANCE);
     _config["EnableMemoryConfiguration"] = settings.value("EnableMemoryConfiguration", _DEFAULT_MEMORYCONFIGURATION);
     settings.endGroup();
 
@@ -187,6 +209,12 @@ SettingsAgent::SettingsAgent(QObject *parent)
     if (!_config["RandomIntervalTime"].isValid() || _config["RandomIntervalTime"].metaType().id() == QMetaType::UnknownType) {
         _config["RandomIntervalTime"] = _DEFAULT_RANDOMINTERVALTIME;
     }
+    if (!_config["EnableRandomOffset"].isValid() || _config["EnableRandomOffset"].metaType().id() == QMetaType::UnknownType) {
+        _config["EnableRandomOffset"] = _DEFAULT_RANDOMOFFSET;
+    }
+    if (!_config["RandomOffsetDistance"].isValid() || _config["RandomOffsetDistance"].metaType().id() == QMetaType::UnknownType) {
+        _config["RandomOffsetDistance"] = _DEFAULT_RANDOMOFFSETDISTANCE;
+    }
     if (!_config["EnableMemoryConfiguration"].isValid() || _config["EnableMemoryConfiguration"].metaType().id() == QMetaType::UnknownType) {
         _config["EnableMemoryConfiguration"] = _DEFAULT_MEMORYCONFIGURATION;
     }
@@ -214,6 +242,8 @@ SettingsAgent::SettingsAgent(QObject *parent)
         _config["IntervalTime"] = _DEFAULT_INTERVALTIME;
         _config["EnableRandomInterval"] = _DEFAULT_RANDOMINTERVAL;
         _config["RandomIntervalTime"] = _DEFAULT_RANDOMINTERVALTIME;
+        _config["EnableRandomOffset"] = _DEFAULT_RANDOMOFFSET;
+        _config["RandomOffsetDistance"] = _DEFAULT_RANDOMOFFSETDISTANCE;
     }
 
 
@@ -245,6 +275,8 @@ SettingsAgent::~SettingsAgent()
     settings.setValue("IntervalTime", _config["IntervalTime"]);
     settings.setValue("EnableRandomInterval", _config["EnableRandomInterval"]);
     settings.setValue("RandomIntervalTime", _config["RandomIntervalTime"]);
+    settings.setValue("EnableRandomOffset", _config["EnableRandomOffset"]);
+    settings.setValue("RandomOffsetDistance", _config["RandomOffsetDistance"]);
     settings.setValue("EnableMemoryConfiguration", _config["EnableMemoryConfiguration"]);
     settings.endGroup();
 }
