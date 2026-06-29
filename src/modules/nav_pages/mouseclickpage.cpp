@@ -8,6 +8,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QSpinBox>
 #include <QThread>
 
 #include "../../utils/clicker.h"
@@ -153,11 +154,70 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     random_interval_time->setMinimum(0.02);
     random_interval_time->setSingleStep(0.01);
     random_interval_time->setValue(app_settings.RandomIntervalTime());
-    random_interval_time->setEnabled(false);
+    random_interval_time->setEnabled(random_interval_toggle_btn->isChecked());
+
+    if (random_interval_toggle_btn->isChecked()) {
+        interval_time->setEnabled(false);
+    }
 
     random_interval_time_content_layout->addWidget(random_interval_time_desc);
     random_interval_time_content_layout->addWidget(random_interval_time);
     random_interval_time_content->setLayout(random_interval_time_content_layout);
+
+    /********************/
+
+    QWidget* random_offset_toggle_content = new QWidget(page_content);
+    random_offset_toggle_content->setFixedHeight(pageContentUniformHeight);
+
+    QHBoxLayout* random_offset_toggle_content_layout = new QHBoxLayout(random_offset_toggle_content);
+    random_offset_toggle_content_layout->setSpacing(0);
+    random_offset_toggle_content_layout->setContentsMargins(QMargins());
+
+    QLabel* random_offset_toggle_desc = new QLabel(random_offset_toggle_content);
+    random_offset_toggle_desc->setObjectName(QStringLiteral("random-offset-toggle-desc"));
+    random_offset_toggle_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    random_offset_toggle_desc->setFocusPolicy(Qt::NoFocus);
+    random_offset_toggle_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    random_offset_toggle_desc->setText(tr("Random Click Offset"));
+
+    QRadioButton* random_offset_toggle_btn = new QRadioButton(random_offset_toggle_content);
+    random_offset_toggle_btn->setObjectName(QStringLiteral("random-offset-toggle-btn"));
+    random_offset_toggle_btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    random_offset_toggle_btn->setChecked(app_settings.EnableRandomOffset());
+
+    random_offset_toggle_content_layout->addWidget(random_offset_toggle_desc);
+    random_offset_toggle_content_layout->addWidget(random_offset_toggle_btn);
+    random_offset_toggle_content->setLayout(random_offset_toggle_content_layout);
+
+    /********************/
+
+    QWidget* random_offset_distance_content = new QWidget(page_content);
+    random_offset_distance_content->setFixedHeight(pageContentUniformHeight);
+
+    QHBoxLayout* random_offset_distance_content_layout = new QHBoxLayout(random_offset_distance_content);
+    random_offset_distance_content_layout->setSpacing(0);
+    random_offset_distance_content_layout->setContentsMargins(QMargins());
+
+    QLabel* random_offset_distance_desc = new QLabel(random_offset_distance_content);
+    random_offset_distance_desc->setObjectName(QStringLiteral("random-offset-distance-desc"));
+    random_offset_distance_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    random_offset_distance_desc->setFocusPolicy(Qt::NoFocus);
+    random_offset_distance_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    random_offset_distance_desc->setText(tr("Set Max Random Offset"));
+
+    QSpinBox* random_offset_distance = new QSpinBox(random_offset_distance_content);
+    random_offset_distance->setObjectName(QStringLiteral("random-offset-distance"));
+    random_offset_distance->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    random_offset_distance->setSuffix(tr(" px"));
+    random_offset_distance->setMaximum(1000);
+    random_offset_distance->setMinimum(0);
+    random_offset_distance->setSingleStep(1);
+    random_offset_distance->setValue(app_settings.RandomOffsetDistance());
+    random_offset_distance->setEnabled(random_offset_toggle_btn->isChecked());
+
+    random_offset_distance_content_layout->addWidget(random_offset_distance_desc);
+    random_offset_distance_content_layout->addWidget(random_offset_distance);
+    random_offset_distance_content->setLayout(random_offset_distance_content_layout);
 
     /********************/
 
@@ -190,6 +250,8 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     page_content_layout->addWidget(interval_time_content);
     page_content_layout->addWidget(random_interval_toggle_content);
     page_content_layout->addWidget(random_interval_time_content);
+    page_content_layout->addWidget(random_offset_toggle_content);
+    page_content_layout->addWidget(random_offset_distance_content);
     page_content_layout->addWidget(memory_configuration_toggle_content);
     page_content_layout->addStretch();
 
@@ -210,6 +272,12 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     });
 
     connect(random_interval_time, &QDoubleSpinBox::valueChanged, &SettingsAgent::instance(), &SettingsAgent::setRandomIntervalTime);
+    connect(random_offset_toggle_btn, &QRadioButton::toggled, random_offset_distance, [random_offset_distance](bool checked) {
+        random_offset_distance->setEnabled(checked);
+        SettingsAgent::instance().setEnableRandomOffset(checked);
+    });
+
+    connect(random_offset_distance, &QSpinBox::valueChanged, &SettingsAgent::instance(), &SettingsAgent::setRandomOffsetDistance);
     connect(memory_configuration_toggle_btn, &QRadioButton::toggled, &SettingsAgent::instance(), &SettingsAgent::setEnableMemoryConfiguration);
 
     // hotkey event
@@ -223,6 +291,8 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
             interval_time->setEnabled(!random_interval_toggle_btn->isChecked());
             random_interval_toggle_btn->setEnabled(true);
             random_interval_time->setEnabled(random_interval_toggle_btn->isChecked());
+            random_offset_toggle_btn->setEnabled(true);
+            random_offset_distance->setEnabled(random_offset_toggle_btn->isChecked());
             memory_configuration_toggle_btn->setEnabled(true);
         } else {
             Qt::MouseButton btn_type;
@@ -239,14 +309,19 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
             int interval = static_cast<int>(interval_time->value() * 1000);                     // 转为毫秒值
             bool random_interval_flag = random_interval_toggle_btn->isChecked();
             int max_random_interval = static_cast<int>(random_interval_time->value() * 1000);   // 转为毫秒值
+            bool random_offset_flag = random_offset_toggle_btn->isChecked();
+            int max_random_offset = random_offset_distance->value();                            // 像素值
 
-            NavPage::_clicker->initParameters(btn_type, interval, random_interval_flag, max_random_interval);
+            NavPage::_clicker->initParameters(btn_type, interval, random_interval_flag, max_random_interval,
+                                               random_offset_flag, max_random_offset);
             NavPage::_clicker_thread->start();   // Note: This should be initiated through a sub-thread.
 
             click_type_list->setEnabled(false);
             interval_time->setEnabled(false);
             random_interval_toggle_btn->setEnabled(false);
             random_interval_time->setEnabled(false);
+            random_offset_toggle_btn->setEnabled(false);
+            random_offset_distance->setEnabled(false);
             memory_configuration_toggle_btn->setEnabled(false);
         }
     });

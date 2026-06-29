@@ -80,6 +80,21 @@
         <translation>Set Max Random Interval</translation>
     </message>
     <message>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="184"/>
+        <source>Random Click Offset</source>
+        <translation>Random Click Offset</translation>
+    </message>
+    <message>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="209"/>
+        <source>Set Max Random Offset</source>
+        <translation>Set Max Random Offset</translation>
+    </message>
+    <message>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="214"/>
+        <source> px</source>
+        <translation> px</translation>
+    </message>
+    <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="176"/>
         <source>Memory Configuration</source>
         <translation>Memory Configuration</translation>

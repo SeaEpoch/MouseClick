@@ -80,6 +80,21 @@
         <translation>最大随机时间</translation>
     </message>
     <message>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="184"/>
+        <source>Random Click Offset</source>
+        <translation>随机点击偏移</translation>
+    </message>
+    <message>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="209"/>
+        <source>Set Max Random Offset</source>
+        <translation>最大随机偏移</translation>
+    </message>
+    <message>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="214"/>
+        <source> px</source>
+        <translation> 像素</translation>
+    </message>
+    <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="176"/>
         <source>Memory Configuration</source>
         <translation>记住配置参数</translation>
