@@ -6,20 +6,15 @@
 #include <QMap>
 #include <QObject>
 #include <QSettings>
-#include <QTranslator>
 
 class SettingsAgent : public QObject
 {
     Q_OBJECT
 public:
-    // 接口
     static SettingsAgent& instance();
 
-    void initTranslator();
-
-    /***** 相关的 getter 与 settter *****/
     Theme::ThemeMode ThemeMode() const;
-    void setThemeMode(Theme::ThemeMode& theme_mode);
+    void setThemeMode(Theme::ThemeMode theme_mode);
 
     Qt::WindowStates WindowState() const;
     void setWindowState(Qt::WindowStates window_state);
@@ -29,8 +24,6 @@ public:
 
     QString Language() const;
     void setLanguage(const QString& language);
-
-    // ------------- //
 
     int ClickType() const;
     void setClickType(const int type);
@@ -46,7 +39,6 @@ public:
 
     bool EnableMemoryConfiguration() const;
     void setEnableMemoryConfiguration(bool memory_configuration);
-    /***********************************/
 
 signals:
     void currentThemeChanged(Theme::ThemeMode current_theme);
@@ -55,30 +47,20 @@ signals:
 private:
     explicit SettingsAgent(QObject *parent = nullptr);
     ~SettingsAgent();
-    Q_DISABLE_COPY(SettingsAgent);
+    Q_DISABLE_COPY_MOVE(SettingsAgent);
 
-    // 所有配置以键值对形式存储
     QMap<QString, QVariant> _config;
-
-    // 翻译器（运行时语言热切换）
-    QTranslator* _translator;
-    bool _translator_loaded;
-    void loadLanguageFile(const QString& language);
-
-    // 配置文件完整文件路径
     QString _settings_file_path;
 
-    // 支持语言列表
     const QStringList _language_support_list = {
         "en_US",
         "zh_CN",
         "zh_TW"
     };
 
-    // 默认值
-    const Theme::ThemeMode _DEFAULT_THEMEMODE = Theme::Light;   // 默认主题设置
+    const Theme::ThemeMode _DEFAULT_THEMEMODE = Theme::Light;
     const Qt::WindowStates _DEFAULT_WINDOWSTATE = Qt::WindowNoState;
-    const QString _DEFAULT_LANGUAGE = "en_US";                  // 默认语言设置
+    const QString _DEFAULT_LANGUAGE = "en_US";
     const QString _DEFAULT_HOTKEY = "Ctrl+F2";
     const int _DEFAULT_CLICKTYPE = 0;
     const double _DEFAULT_INTERVALTIME = 0.01;

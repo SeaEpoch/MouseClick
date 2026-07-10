@@ -5,6 +5,7 @@
 #include <QFontDatabase>
 
 #include "modules/settingsagent.h"
+#include "modules/translationmanager.h"
 
 int main(int argc, char* argv[])
 {
@@ -14,9 +15,9 @@ int main(int argc, char* argv[])
 
     QApplication app(argc, argv);
 
-    // 国际化
-    SettingsAgent& app_settings = SettingsAgent::instance(); // 全局第一次初始化
-    app_settings.initTranslator();
+    TranslationManager::instance().init();
+    SettingsAgent& app_settings = SettingsAgent::instance();
+    TranslationManager::instance().switchLanguage(app_settings.Language());
 
     // 设置字体
     int font_id = QFontDatabase::addApplicationFont(":/fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Regular.ttf");

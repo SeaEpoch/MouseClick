@@ -9,18 +9,19 @@
 
 class SettingsPage : public NavPage
 {
-    friend class MouseClickPage;
-
     Q_OBJECT
 public:
     explicit SettingsPage(const QString& title, QWidget* parent = nullptr);
     ~SettingsPage();
 
+signals:
+    void hotkeyActivated();
+
 protected:
     void changeEvent(QEvent *event) override;
 
 private:
-    Q_DISABLE_COPY(SettingsPage)
+    Q_DISABLE_COPY_MOVE(SettingsPage)
 
     static QMap<Theme::ThemeMode, QString> _theme_files;
     HotkeyLineEdit* _hotkey_reader;

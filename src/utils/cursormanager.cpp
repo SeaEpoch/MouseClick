@@ -138,21 +138,43 @@ bool CursorManager::isSchemeRegistered(const QJsonObject& config) const
     return schemeSettings.contains(schemeName);
 }
 
+bool CursorManager::isCurrentlyApplied(const QJsonObject& config) const
+{
+    const QJsonObject cursorObj = config["cursor"].toObject();
+    const QString themeName = config["name"].toString();
+    const QString themePath = "C:\\Windows\\Cursors\\" + themeName + "\\";
+
+    QSettings cursorSettings("HKEY_CURRENT_USER\\Control Panel\\Cursors", QSettings::NativeFormat);
+
+    for (const QString& cursorType : cursorTypeOrder) {
+        const QString cursorFile = cursorObj.value(cursorType).toString();
+        if (cursorFile.isEmpty()) {
+            continue;
+        }
+        const QString regValue = cursorSettings.value(cursorType).toString();
+        if (regValue.contains(themePath)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool CursorManager::uninstallCursor(const QString& cursorName, const QJsonObject& config)
 {
-    // 1. 恢复默认光标
-    resetCursorRegistryToDefault();
+    // 仅在卸载当前正在使用的光标主题时才重置光标
+    if (isCurrentlyApplied(config)) {
+        resetCursorRegistryToDefault();
+#ifdef Q_OS_WIN
+        SystemParametersInfoW(SPI_SETCURSORS, 0, 0, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+#endif
+    }
 
-    // 2. 从 Schemes 中移除该光标主题，避免残留无效方案
+    // 从 Schemes 中移除该光标主题
     const QString schemeName = config["name"].toString();
     QSettings schemeSettings("HKEY_CURRENT_USER\\Control Panel\\Cursors\\Schemes", QSettings::NativeFormat);
     schemeSettings.remove(schemeName);
 
-#ifdef Q_OS_WIN
-    SystemParametersInfoW(SPI_SETCURSORS, 0, 0, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
-#endif
-
-    // 3. 删除 C:\Windows\Cursors\<themeName>\ 下的文件及目录
+    // 删除 C:\Windows\Cursors\<themeName>\ 下的文件及目录
     deleteCursorFilesFromSystem(cursorName, config);
 
     return true;

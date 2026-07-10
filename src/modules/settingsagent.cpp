@@ -1,5 +1,6 @@
 #include "settingsagent.h"
 #include "messagebox.h"
+#include "translationmanager.h"
 #include "../utils/logger.h"
 
 #include <QCoreApplication>
@@ -21,7 +22,7 @@ Theme::ThemeMode SettingsAgent::ThemeMode() const
     return static_cast<Theme::ThemeMode>(_config["ThemeMode"].toInt());
 }
 
-void SettingsAgent::setThemeMode(Theme::ThemeMode &theme_mode)
+void SettingsAgent::setThemeMode(Theme::ThemeMode theme_mode)
 {
     if (_config["ThemeMode"].toInt() != static_cast<int>(theme_mode)) {
         _config["ThemeMode"] = theme_mode;
@@ -58,38 +59,8 @@ void SettingsAgent::setLanguage(const QString& language)
 {
     if (_config["Language"].toString() != language) {
         _config["Language"] = language;
-        loadLanguageFile(language);
+        TranslationManager::instance().switchLanguage(language);
         emit currentLanguageChanged(language);
-    }
-}
-
-void SettingsAgent::initTranslator()
-{
-    _translator = new QTranslator(this);
-    loadLanguageFile(_config["Language"].toString());
-}
-
-void SettingsAgent::loadLanguageFile(const QString& language)
-{
-    const QString qmPath = ":/i18n/MouseClick_" + language;
-
-    if (!_translator_loaded) {
-        // 首次加载
-        _translator_loaded = _translator->load(qmPath);
-        if (_translator_loaded) {
-            QCoreApplication::installTranslator(_translator);
-        }
-    } else {
-        // 运行时切换：先卸载旧翻译，加载新翻译
-        QCoreApplication::removeTranslator(_translator);
-        QTranslator* newTranslator = new QTranslator(this);
-        if (newTranslator->load(qmPath)) {
-            delete _translator;
-            _translator = newTranslator;
-        } else {
-            delete newTranslator;
-        }
-        QCoreApplication::installTranslator(_translator);
     }
 }
 
@@ -144,9 +115,7 @@ void SettingsAgent::setEnableMemoryConfiguration(bool memory_configuration)
 }
 
 SettingsAgent::SettingsAgent(QObject *parent)
-    : QObject{parent},
-      _translator(nullptr),
-      _translator_loaded(false)
+    : QObject{parent}
 {
     _settings_file_path = QCoreApplication::applicationDirPath() + "/config.ini";
     QFile settings_file(_settings_file_path);
@@ -164,7 +133,7 @@ SettingsAgent::SettingsAgent(QObject *parent)
         file_missing_msg.exec();
 
         if (file_missing_msg.clickedButton() == reinstall_btn) {
-            QDesktopServices::openUrl(QUrl("https://seaepoch.github.io/MouseClick/"));
+            QDesktopServices::openUrl(QUrl("https://github.com/SeaEpoch/MouseClick"));
         } else if (file_missing_msg.clickedButton() == ignore_btn) {
             // nothing to do
         } else {
@@ -196,33 +165,20 @@ SettingsAgent::SettingsAgent(QObject *parent)
     settings.endGroup();
 
     // 解决可能出现的 @Invalid() 值问题
-    if (!_config["ThemeMode"].isValid() || _config["ThemeMode"].metaType().id() == QMetaType::UnknownType) {
-        _config["ThemeMode"] = _DEFAULT_THEMEMODE;
-    }
-    if (!_config["WindowState"].isValid() || _config["WindowState"].metaType().id() == QMetaType::UnknownType) {
-        _config["WindowState"] = static_cast<int>(_DEFAULT_WINDOWSTATE);
-    }
-    if (!_config["Language"].isValid() || _config["Language"].metaType().id() == QMetaType::UnknownType) {
-        _config["Language"] = _DEFAULT_LANGUAGE;
-    }
-    if (!_config["Hotkey"].isValid() || _config["Hotkey"].metaType().id() == QMetaType::UnknownType) {
-        _config["Hotkey"] = _DEFAULT_HOTKEY;
-    }
-    if (!_config["ClickType"].isValid() || _config["ClickType"].metaType().id() == QMetaType::UnknownType) {
-        _config["ClickType"] = _DEFAULT_CLICKTYPE;
-    }
-    if (!_config["IntervalTime"].isValid() || _config["IntervalTime"].metaType().id() == QMetaType::UnknownType) {
-        _config["IntervalTime"] = _DEFAULT_INTERVALTIME;
-    }
-    if (!_config["EnableRandomInterval"].isValid() || _config["EnableRandomInterval"].metaType().id() == QMetaType::UnknownType) {
-        _config["EnableRandomInterval"] = _DEFAULT_RANDOMINTERVAL;
-    }
-    if (!_config["RandomIntervalTime"].isValid() || _config["RandomIntervalTime"].metaType().id() == QMetaType::UnknownType) {
-        _config["RandomIntervalTime"] = _DEFAULT_RANDOMINTERVALTIME;
-    }
-    if (!_config["EnableMemoryConfiguration"].isValid() || _config["EnableMemoryConfiguration"].metaType().id() == QMetaType::UnknownType) {
-        _config["EnableMemoryConfiguration"] = _DEFAULT_MEMORYCONFIGURATION;
-    }
+    auto ensureValid = [this](const QString& key, const QVariant& defaultValue) {
+        if (!_config[key].isValid() || _config[key].metaType().id() == QMetaType::UnknownType) {
+            _config[key] = defaultValue;
+        }
+    };
+    ensureValid("ThemeMode",                _DEFAULT_THEMEMODE);
+    ensureValid("WindowState",              static_cast<int>(_DEFAULT_WINDOWSTATE));
+    ensureValid("Language",                 _DEFAULT_LANGUAGE);
+    ensureValid("Hotkey",                   _DEFAULT_HOTKEY);
+    ensureValid("ClickType",                _DEFAULT_CLICKTYPE);
+    ensureValid("IntervalTime",             _DEFAULT_INTERVALTIME);
+    ensureValid("EnableRandomInterval",     _DEFAULT_RANDOMINTERVAL);
+    ensureValid("RandomIntervalTime",       _DEFAULT_RANDOMINTERVALTIME);
+    ensureValid("EnableMemoryConfiguration", _DEFAULT_MEMORYCONFIGURATION);
 
     // 主题的特殊检查
     if (!Theme::isValidThemeMode(_config["ThemeMode"].toInt())) {

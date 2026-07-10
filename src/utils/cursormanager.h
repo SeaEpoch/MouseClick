@@ -16,6 +16,7 @@ public:
 
     bool isInstalled(const QJsonObject& config) const;
     bool isSchemeRegistered(const QJsonObject& config) const;
+    bool isCurrentlyApplied(const QJsonObject& config) const;
 
 private:
     // Windows 光标注册表项在方案字符串中的顺序

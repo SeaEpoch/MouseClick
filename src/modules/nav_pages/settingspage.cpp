@@ -188,8 +188,12 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
         SettingsAgent::instance().setThemeMode(theme_mode);
     });
 
+    // 将 HotkeyLineEdit 的信号代理为 SettingsPage 的 public 信号
+    connect(_hotkey_reader, &HotkeyLineEdit::hotkeyActivated,
+            this, &SettingsPage::hotkeyActivated);
+
     connect(_hotkey_reader, &HotkeyLineEdit::hotkeyActivated, this, [=]() {
-        if (NavPage::_clicker_thread->isRunning()) {
+        if (NavPage::clickerThread()->isRunning()) {
             _hotkey_reader->setEnabled(true);
             _hotkey_clean->setEnabled(true);
         } else {

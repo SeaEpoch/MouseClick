@@ -21,7 +21,7 @@ protected:
     void changeEvent(QEvent *event) override;
 
 private:
-    Q_DISABLE_COPY(MouseClickPage)
+    Q_DISABLE_COPY_MOVE(MouseClickPage)
 
     static QMap<Theme::ThemeMode, QString> _theme_files;
 

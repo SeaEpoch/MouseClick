@@ -7,20 +7,32 @@
 
 QMap<Theme::ThemeMode, QString> NavPage::_theme_files {};
 
-Clicker* NavPage::_clicker = new Clicker();
-QThread* NavPage::_clicker_thread = new QThread();
+std::unique_ptr<Clicker> NavPage::_clicker = std::make_unique<Clicker>();
+std::unique_ptr<QThread> NavPage::_clicker_thread = std::make_unique<QThread>();
 bool NavPage::_is_thread_initialized = false;
+
+Clicker* NavPage::clicker()
+{
+    return _clicker.get();
+}
+
+QThread* NavPage::clickerThread()
+{
+    return _clicker_thread.get();
+}
 
 NavPage::NavPage(QWidget* parent)
     : QWidget{parent}
 {
-    disconnect(&SettingsAgent::instance(), &SettingsAgent::currentThemeChanged, this, &NavPage::LoadThemeStyleSheet);
-    connect(&SettingsAgent::instance(), &SettingsAgent::currentThemeChanged, this, &NavPage::LoadThemeStyleSheet);
+    disconnect(&SettingsAgent::instance(), &SettingsAgent::currentThemeChanged,
+                this, &NavPage::LoadThemeStyleSheet);
+    connect(&SettingsAgent::instance(), &SettingsAgent::currentThemeChanged,
+            this, &NavPage::LoadThemeStyleSheet);
 
-    // Thread initialization once
     if (!_is_thread_initialized) {
-        NavPage::_clicker->moveToThread(NavPage::_clicker_thread);
-        connect(NavPage::_clicker_thread, &QThread::started, NavPage::_clicker, &Clicker::start);
+        _clicker->moveToThread(_clicker_thread.get());
+        connect(_clicker_thread.get(), &QThread::started,
+                _clicker.get(), &Clicker::start);
         _is_thread_initialized = true;
     }
 }

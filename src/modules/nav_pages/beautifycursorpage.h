@@ -19,7 +19,7 @@ protected:
     void changeEvent(QEvent *event) override;
 
 private:
-    Q_DISABLE_COPY(BeautifyCursorPage)
+    Q_DISABLE_COPY_MOVE(BeautifyCursorPage)
 
     static QMap<Theme::ThemeMode, QString> _theme_files;
     QMap<QString, QJsonObject> _cursors;

@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.9)
 
-project(MouseClick VERSION 0.1 LANGUAGES CXX)
+project(MouseClick VERSION 3.0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -43,6 +43,7 @@ set(PROJECT_SOURCES
         src/modules/nav_pages/beautifycursorpage.h  src/modules/nav_pages/beautifycursorpage.cpp
         src/modules/nav_pages/settingspage.h        src/modules/nav_pages/settingspage.cpp
         src/modules/settingsagent.h                 src/modules/settingsagent.cpp
+        src/modules/translationmanager.h            src/modules/translationmanager.cpp
         src/modules/shared.h                        src/modules/shared.cpp
         src/modules/hotkeylineedit.h                src/modules/hotkeylineedit.cpp
         src/modules/messagebox.h                    src/modules/messagebox.cpp

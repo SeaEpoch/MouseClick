@@ -13,7 +13,8 @@ public:
     void setIcon(Icon icon);
 
 private:
-    Q_DISABLE_COPY(MessageBox)
+    Q_DISABLE_COPY_MOVE(MessageBox)
+    QString _base_styleSheet;
 };
 
 #endif // MESSAGEBOX_H

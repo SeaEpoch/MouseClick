@@ -287,22 +287,22 @@ System default cursor restored.</source>
 <context>
     <name>SettingsAgent</name>
     <message>
-        <location filename="../src/modules/settingsagent.cpp" line="157"/>
+        <location filename="../src/modules/settingsagent.cpp" line="126"/>
         <source>WARNING</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../src/modules/settingsagent.cpp" line="158"/>
+        <location filename="../src/modules/settingsagent.cpp" line="127"/>
         <source>The configuration file &apos;condig.ini&apos; was not found. The program may have been modified. It is recommended to reinstall the program, which may resolve this issue.</source>
         <translation>配置文件“condig.ini”未找到。程序可能已被修改。建议重新安装程序，这可能解决此问题。</translation>
     </message>
     <message>
-        <location filename="../src/modules/settingsagent.cpp" line="160"/>
+        <location filename="../src/modules/settingsagent.cpp" line="129"/>
         <source>Ignore</source>
         <translation>忽略</translation>
     </message>
     <message>
-        <location filename="../src/modules/settingsagent.cpp" line="161"/>
+        <location filename="../src/modules/settingsagent.cpp" line="130"/>
         <source>Reinstall</source>
         <translation>重新安装</translation>
     </message>
@@ -311,53 +311,53 @@ System default cursor restored.</source>
     <name>SettingsPage</name>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="76"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="231"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="235"/>
         <source>Start/End Hotkey</source>
         <translation>&quot;开始/结束&quot;快捷键</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="101"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="232"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="236"/>
         <source>Hotkey Clean</source>
         <translation>清除快捷键</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="117"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="234"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="238"/>
         <source>Dark Theme</source>
         <translation>深色模式</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="142"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="235"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="239"/>
         <source>Language</source>
         <translation>语言设置</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="147"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="243"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="247"/>
         <source>English(United States)</source>
         <translation>English(United States)</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="148"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="244"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="248"/>
         <source>Chinese(Simplified)</source>
         <translation>中文（简体）</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="149"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="245"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="249"/>
         <source>Chinese(Traditional)</source>
         <translation>中文（繁體）</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="230"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="234"/>
         <source>Settings</source>
         <translation type="unfinished">软件设置</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="233"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="237"/>
         <source>Please set a shortcut hotkey</source>
         <translation type="unfinished">请设置一个快捷键</translation>
     </message>

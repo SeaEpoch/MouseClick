@@ -214,11 +214,11 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     connect(memory_configuration_toggle_btn, &QRadioButton::toggled, &SettingsAgent::instance(), &SettingsAgent::setEnableMemoryConfiguration);
 
     // hotkey event
-    connect(settings_page._hotkey_reader, &HotkeyLineEdit::hotkeyActivated, this, [=, &settings_page]() {
-        if (NavPage::_clicker_thread->isRunning()) {
-            NavPage::_clicker->stop();
-            NavPage::_clicker_thread->quit();
-            NavPage::_clicker_thread->wait();
+    connect(&settings_page, &SettingsPage::hotkeyActivated, this, [=]() {
+        if (NavPage::clickerThread()->isRunning()) {
+            NavPage::clicker()->stop();
+            NavPage::clickerThread()->quit();
+            NavPage::clickerThread()->wait();
 
             _click_type_list->setEnabled(true);
             interval_time->setEnabled(!random_interval_toggle_btn->isChecked());
@@ -241,8 +241,8 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
             bool random_interval_flag = random_interval_toggle_btn->isChecked();
             int max_random_interval = static_cast<int>(random_interval_time->value() * 1000);   // 转为毫秒值
 
-            NavPage::_clicker->initParameters(btn_type, interval, random_interval_flag, max_random_interval);
-            NavPage::_clicker_thread->start();   // Note: This should be initiated through a sub-thread.
+            NavPage::clicker()->initParameters(btn_type, interval, random_interval_flag, max_random_interval);
+            NavPage::clickerThread()->start();   // Note: This should be initiated through a sub-thread.
 
             _click_type_list->setEnabled(false);
             interval_time->setEnabled(false);
@@ -256,10 +256,10 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
 MouseClickPage::~MouseClickPage()
 {
     // There is a possibility that the user hasn't stopped clicking when closing the program.
-    if (NavPage::_clicker_thread->isRunning()) {
-        NavPage::_clicker->stop();
-        NavPage::_clicker_thread->quit();
-        NavPage::_clicker_thread->wait();
+    if (NavPage::clickerThread()->isRunning()) {
+        NavPage::clicker()->stop();
+        NavPage::clickerThread()->quit();
+        NavPage::clickerThread()->wait();
     }
 }
 

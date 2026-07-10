@@ -29,7 +29,7 @@ signals:
     void windowStateChanged(Qt::WindowStates newState);
 
 private:
-    Q_DISABLE_COPY(MainWindow)
+    Q_DISABLE_COPY_MOVE(MainWindow)
 
     QWK::WidgetWindowAgent* _window_agent;
     static QMap<Theme::ThemeMode, QString> _theme_files;

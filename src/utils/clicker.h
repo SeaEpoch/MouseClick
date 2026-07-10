@@ -1,6 +1,7 @@
 #ifndef CLICKER_H
 #define CLICKER_H
 
+#include <atomic>
 #include <QMutex>
 #include <QObject>
 #include <QWaitCondition>
@@ -21,7 +22,7 @@ public Q_SLOTS:
     void stop();
 
 private:
-    bool _run;
+    std::atomic<bool> _run;
     Qt::MouseButton _btn_type;
     int _interval;
     bool _random_interval_flag;
@@ -30,14 +31,9 @@ private:
     QMutex _interrupt_sleep_immediately;
     QWaitCondition _sleep_timer;
     void msleep(int ms);
-
-    void leftClick();
-    void rightClick();
-    void middleClick();
-
-    void leftRandomClick();
-    void rightRandomClick();
-    void middleRandomClick();
+#if defined(Q_OS_WIN)
+    void clickLoop(unsigned long flags);
+#endif
 };
 
 #endif // CLICKER_H
