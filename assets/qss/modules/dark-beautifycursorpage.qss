@@ -1,0 +1,90 @@
+#page-title {
+    border: none;
+    outline: none;
+    font-size: 30px;
+    background-color: transparent;
+}
+
+#page-content {
+    background-color: transparent;
+}
+
+#page-content QLabel {
+    border: none;
+    outline: none;
+    margin: 0px;
+    padding: 0px;
+    font-size: 14px;
+    background-color: transparent;
+}
+
+#page-content QListWidget {
+    border: none;               /*边界线:宽度、颜色*/
+    outline: none;
+    background: transparent;    /*表格背景色*/
+    color: #1e1e1e;             /*前景色：文字颜色*/
+}
+
+#page-content QListWidget::item
+{
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid transparent;
+    background-color: transparent;
+    border-radius: 4px;
+}
+
+#page-content QListWidget::item:hover
+{
+    border: 1px solid #595959;
+    background-color: #595959;
+}
+
+#page-content QListWidget::item:selected
+{
+    border: 1px solid #393939;
+    background-color: #525252;
+}
+
+#page-content QListWidget::item:selected:!active
+{
+    border: 1px solid #525252;
+    background-color: #595959;
+}
+
+#cursor-title {
+    font-weight: bold;
+}
+
+#cursor-author {
+    color: #949494;
+}
+
+#page-content QPushButton {
+    text-align: center;
+    font-size: 14px;
+    color: #fafafa;
+    outline: none;
+    border-radius: 4px;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    border-bottom: 2px solid #2987D5;
+    background-color: #3AA0F5;
+}
+
+#page-content QPushButton:hover {
+    border-bottom: 2px solid #2987D5;
+    background-color: #4DAAF7;
+}
+
+#page-content QPushButton:pressed {
+    border-bottom: 2px solid #5CB0F7;
+    background-color: #5CB0F7;
+}
+
+#page-content QPushButton:disabled {
+    border-bottom-color: #95CBF5;
+    background-color: #9BD2FF;
+}
+

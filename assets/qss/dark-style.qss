@@ -132,6 +132,9 @@ MainWindow {
 #nav-item-mouse-click {
     icon: url(:/svg/mouse-click-item-white.svg);
 }
+#nav-item-beautify-cursor {
+    icon: url(:/svg/beautify-cursor-item-white.svg);
+}
 #nav-item-settings {
     icon: url(:/svg/settings-item-white.svg);
 }
@@ -141,6 +144,12 @@ MainWindow {
 #nav-item-mouse-click:checked:pressed,
 #nav-item-mouse-click:hover {
     icon: url(:/svg/mouse-click-item-white.svg);
+}
+#nav-item-beautify-cursor:pressed,
+#nav-item-beautify-cursor:checked,
+#nav-item-beautify-cursor:checked:pressed,
+#nav-item-beautify-cursor:hover {
+    icon: url(:/svg/beautify-cursor-item-white.svg);
 }
 #nav-item-settings:pressed,
 #nav-item-settings:checked,

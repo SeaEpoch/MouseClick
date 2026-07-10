@@ -39,5 +39,9 @@
         <file>svg/up-line-white.svg</file>
         <file>svg/down-line-white.svg</file>
         <file>fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Regular.ttf</file>
+        <file>svg/beautify-cursor-item-black.svg</file>
+        <file>svg/beautify-cursor-item-white.svg</file>
+        <file>qss/modules/dark-beautifycursorpage.qss</file>
+        <file>qss/modules/light-beautifycursorpage.qss</file>
     </qresource>
 </RCC>

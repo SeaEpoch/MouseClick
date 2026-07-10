@@ -37,18 +37,29 @@ set(QRC_FILES assets/assets.qrc)
 
 set(PROJECT_SOURCES
         src/main.cpp
-        src/mainwindow.h                        src/mainwindow.cpp
-        src/modules/nav_pages/navpage.h         src/modules/nav_pages/navpage.cpp
-        src/modules/nav_pages/mouseclickpage.h  src/modules/nav_pages/mouseclickpage.cpp
-        src/modules/nav_pages/settingspage.h    src/modules/nav_pages/settingspage.cpp
-        src/modules/settingsagent.h             src/modules/settingsagent.cpp
-        src/modules/shared.h                    src/modules/shared.cpp
-        src/modules/hotkeylineedit.h            src/modules/hotkeylineedit.cpp
-        src/modules/messagebox.h                src/modules/messagebox.cpp
-        src/utils/clicker.h                     src/utils/clicker.cpp
+        src/mainwindow.h                            src/mainwindow.cpp
+        src/modules/nav_pages/navpage.h             src/modules/nav_pages/navpage.cpp
+        src/modules/nav_pages/mouseclickpage.h      src/modules/nav_pages/mouseclickpage.cpp
+        src/modules/nav_pages/beautifycursorpage.h  src/modules/nav_pages/beautifycursorpage.cpp
+        src/modules/nav_pages/settingspage.h        src/modules/nav_pages/settingspage.cpp
+        src/modules/settingsagent.h                 src/modules/settingsagent.cpp
+        src/modules/shared.h                        src/modules/shared.cpp
+        src/modules/hotkeylineedit.h                src/modules/hotkeylineedit.cpp
+        src/modules/messagebox.h                    src/modules/messagebox.cpp
+        src/utils/clicker.h                         src/utils/clicker.cpp
+        src/utils/logger.h                          src/utils/logger.cpp
+        src/utils/cursormanager.h                   src/utils/cursormanager.cpp
+        ${CMAKE_BINARY_DIR}/resources.rc
         ${QWK_WINDOWBAR_FILES}
         ${TRANSLATIONS_FILES}
         ${QRC_FILES}
+)
+
+# 通过 configure_file 将 manifest 的绝对路径注入 .rc 文件（windres 需要绝对路径）
+configure_file(
+    ${CMAKE_SOURCE_DIR}/src/resources.rc.in
+    ${CMAKE_BINARY_DIR}/resources.rc
+    @ONLY
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -84,14 +95,14 @@ target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_include_directories(${PROJECT_NAME} PRIVATE "${QWINDOWKIT_ROOT}/include/QWindowKit::Widgets")
 target_link_libraries(${PROJECT_NAME} PRIVATE QWindowKit::Widgets)
 
-target_include_directories(${PROJECT_NAME} PRIVATE ${QHOTKEY_ROOT}/include)
+target_include_directories(${PROJECT_NAME} PRIVATE "${QHOTKEY_ROOT}/include")
 target_link_libraries(${PROJECT_NAME} PRIVATE qhotkey)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER cn.seayj.MouseClick)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.seaepoch.MouseClick)
 endif()
 set_target_properties(${PROJECT_NAME} PROPERTIES
     ${BUNDLE_ID_OPTION}
@@ -114,14 +125,14 @@ endif()
 
 
 # 构建打包环境 dist 目录
-# 1. 复制 QWindowKit 的 dll 文件到构建目录
+# 1. 复制 QWindowKit 的 dll 文件到 dist 目录
 add_custom_command(
     TARGET MouseClick
     PRE_BUILD  # 在构建之前执行
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/deps/qwindowkit/bin"
         "${CMAKE_BINARY_DIR}/dist"
-    COMMENT "Copy the dll files of QWindowKit to the build directory!"
+    COMMENT "Copy the dll files of QWindowKit to the dist directory!"
 )
 
 # 2. 复制生成的可执行文件到 dist 目录
@@ -132,4 +143,25 @@ add_custom_command(
         "$<TARGET_FILE:MouseClick>"  # 目标文件，即生成的 MouseClick.exe
         "${CMAKE_BINARY_DIR}/dist"
     COMMENT "Copy the generated executable to the dist directory!"
+)
+
+# 复制已有鼠标资源到程序环境中
+# 1. 复制一份到构建目录中
+add_custom_command(
+    TARGET MouseClick
+    PRE_BUILD  # 在构建之前执行
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/assets/cursors"
+        "${CMAKE_BINARY_DIR}/cursors"
+    COMMENT "Copy the cursors files to the build directory!"
+)
+
+# 2. 复制一份到 dist 目录中
+add_custom_command(
+    TARGET MouseClick
+    PRE_BUILD  # 在构建之前执行
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/assets/cursors"
+        "${CMAKE_BINARY_DIR}/dist/cursors"
+    COMMENT "Copy the cursors files to the dist directory!"
 )

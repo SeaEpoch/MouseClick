@@ -1,0 +1,25 @@
+{
+    "name": "a0x Cursors",
+    "cursor": {
+        "AppStarting": "working.ani",
+        "Arrow": "arrow.cur",
+        "Crosshair": "cross.cur",
+        "Hand": "hand.ani",
+        "Help": "help.ani",
+        "IBeam": "beam.cur",
+        "No": "no.ani",
+        "NWPen": "pen.cur",
+        "Person": "",
+        "Pin": "",
+        "precisionhair": "",
+        "SizeAll": "move.cur",
+        "SizeNESW": "nesw.ani",
+        "SizeNS": "ns.ani",
+        "SizeNWSE": "nwse.ani",
+        "SizeWE": "we.ani",
+        "UpArrow": "uparrow.cur",
+        "Wait": "busy.ani"
+    },
+    "author": "致美化@KuroSkin",
+    "source": "https://zhutix.com/ico/a0x-curset/"
+}

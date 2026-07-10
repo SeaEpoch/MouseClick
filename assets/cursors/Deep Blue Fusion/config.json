@@ -1,0 +1,25 @@
+{
+    "name": "Deep Blue Fusion",
+    "cursor": {
+        "AppStarting": "work.ani",
+        "Arrow": "pointer.cur",
+        "Crosshair": "cross.cur",
+        "Hand": "link.cur",
+        "Help": "help.cur",
+        "IBeam": "text.cur",
+        "No": "unavailiable.cur",
+        "NWPen": "hand.cur",
+        "Person": "",
+        "Pin": "",
+        "precisionhair": "",
+        "SizeAll": "move.cur",
+        "SizeNESW": "dgn2.cur",
+        "SizeNS": "vert.cur",
+        "SizeNWSE": "dgn1.cur",
+        "SizeWE": "horz.cur",
+        "UpArrow": "alternate.cur",
+        "Wait": "busy.ani"
+    },
+    "author": "致美化@Irsyada Faruki",
+    "source": "https://zhutix.com/ico/deep-blue-fusion-cursors/"
+}

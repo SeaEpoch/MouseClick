@@ -1,6 +1,6 @@
 #include "settingsagent.h"
-
 #include "messagebox.h"
+#include "../utils/logger.h"
 
 #include <QCoreApplication>
 #include <QDesktopServices>
@@ -131,7 +131,7 @@ SettingsAgent::SettingsAgent(QObject *parent)
         file_missing_msg.exec();
 
         if (file_missing_msg.clickedButton() == reinstall_btn) {
-            QDesktopServices::openUrl(QUrl("https://seayj.github.io/MouseClick/"));
+            QDesktopServices::openUrl(QUrl("https://seaepoch.github.io/MouseClick/"));
         } else if (file_missing_msg.clickedButton() == ignore_btn) {
             // nothing to do
         } else {
@@ -215,19 +215,10 @@ SettingsAgent::SettingsAgent(QObject *parent)
         _config["EnableRandomInterval"] = _DEFAULT_RANDOMINTERVAL;
         _config["RandomIntervalTime"] = _DEFAULT_RANDOMINTERVALTIME;
     }
-
-
-#ifdef QT_DEBUG
-    qDebug() << "[SettingsAgent]<SettingsAgent>_config" << _config << Qt::endl;
-#endif
 }
 
 SettingsAgent::~SettingsAgent()
 {
-#ifdef QT_DEBUG
-    qDebug() << "[SettingsAgent]<~SettingsAgent>_config" << _config << Qt::endl;
-#endif
-
     QSettings settings(_settings_file_path, QSettings::IniFormat);
 
     settings.beginGroup("MainWindow");

@@ -16,6 +16,7 @@
 #include <QTreeWidget>
 
 #include <QWKWidgets/widgetwindowagent.h>
+#include "modules/nav_pages/beautifycursorpage.h"
 #include "qwk_window_bar/windowbar.h"
 #include "qwk_window_bar/windowbutton.h"
 
@@ -76,7 +77,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     /******************/
 
-    setMinimumSize(QSize(600, 450));
+    setMinimumSize(QSize(800, 600));
     resize(QSize(800, 600));
     windowInit(tr("MouseClick"), QIcon(":/svg/favicon.svg"));
 
@@ -201,26 +202,33 @@ void MainWindow::UIWidgetInit()
     navigation->setColumnCount(1);
 
     QTreeWidgetItem* mouse_click_item = new QTreeWidgetItem(navigation);
+    QTreeWidgetItem* beautify_cursor_item = new QTreeWidgetItem(navigation);
     QTreeWidgetItem* settings_item = new QTreeWidgetItem(navigation);
 
     QButtonGroup* navigation_item_btn_group = new QButtonGroup(navigation);
 
     const QString mouse_click_page_title = tr("Mouse Click");
+    const QString beautify_cursor_page_title = tr("Beautify Cursor");
     const QString settings_page_title = tr("Settings");
 
     QPushButton* mouse_click = new QPushButton(mouse_click_page_title, navigation);
+    QPushButton* beautify_cursor = new QPushButton(beautify_cursor_page_title, navigation);
     QPushButton* settings = new QPushButton(settings_page_title, navigation);
 
     mouse_click->setCheckable(true);
+    beautify_cursor->setCheckable(true);
     settings->setCheckable(true);
 
     mouse_click->setObjectName(QStringLiteral("nav-item-mouse-click"));
+    beautify_cursor->setObjectName(QStringLiteral("nav-item-beautify-cursor"));
     settings->setObjectName(QStringLiteral("nav-item-settings"));
 
     navigation_item_btn_group->addButton(mouse_click);
+    navigation_item_btn_group->addButton(beautify_cursor);
     navigation_item_btn_group->addButton(settings);
 
     navigation->setItemWidget(mouse_click_item, 0, mouse_click);
+    navigation->setItemWidget(beautify_cursor_item, 0, beautify_cursor);
     navigation->setItemWidget(settings_item, 0, settings);
 
     // set Default selected
@@ -232,10 +240,13 @@ void MainWindow::UIWidgetInit()
     navigation_pages->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     navigation_pages->setContentsMargins(QMargins());
 
+    // SettingsPage 需要优先声明，这里的设计以后会改进
     SettingsPage* settings_page = new SettingsPage(settings_page_title, navigation_pages);
+    BeautifyCursorPage* beautify_cursor_page = new BeautifyCursorPage(beautify_cursor_page_title, navigation_pages);
     MouseClickPage* mouse_click_page = new MouseClickPage(mouse_click_page_title, *settings_page, navigation_pages);
 
     navigation_pages->addWidget(mouse_click_page);
+    navigation_pages->addWidget(beautify_cursor_page);
     navigation_pages->addWidget(settings_page);
 
     // set Default page
@@ -248,9 +259,12 @@ void MainWindow::UIWidgetInit()
         if (current == mouse_click_item) {
             mouse_click->setChecked(true);
             navigation_pages->setCurrentIndex(0);
+        } else if (current == beautify_cursor_item) {
+            beautify_cursor->setChecked(true);
+            navigation_pages->setCurrentIndex(1);
         } else if (current == settings_item) {
             settings->setChecked(true);
-            navigation_pages->setCurrentIndex(1);
+            navigation_pages->setCurrentIndex(2);
         }
     });
 

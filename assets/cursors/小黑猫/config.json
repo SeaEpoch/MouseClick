@@ -1,0 +1,24 @@
+{
+    "name": "小黑猫",
+    "cursor": {
+        "AppStarting": "working.ani",
+        "Arrow": "arrow.ani",
+        "Crosshair": "precision.ani",
+        "Hand": "link.ani",
+        "Help": "helpsel.ani",
+        "IBeam": "text.ani",
+        "No": "unavailable.ani",
+        "NWPen": "handwrite.ani",
+        "Person": "person.ani",
+        "Pin": "position.ani",
+        "SizeAll": "move.ani",
+        "SizeNESW": "nesw.ani",
+        "SizeNS": "ns.ani",
+        "SizeNWSE": "nwse.ani",
+        "SizeWE": "ew.ani",
+        "UpArrow": "alternate.ani",
+        "Wait": "busy.ani"
+    },
+    "author": "B站@77不森气",
+    "source": "https://www.bilibili.com/video/BV1V24y1k7La/"
+}

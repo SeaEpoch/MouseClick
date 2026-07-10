@@ -1,0 +1,25 @@
+{
+    "name": "豆豆鲨指针",
+    "cursor": {
+        "AppStarting": "working.ani",
+        "Arrow": "arrow.ani",
+        "Crosshair": "",
+        "Hand": "link.ani",
+        "Help": "helpsel.ani",
+        "IBeam": "text.ani",
+        "No": "unavail.cur",
+        "NWPen": "",
+        "Person": "",
+        "Pin": "",
+        "precisionhair": "",
+        "SizeAll": "move.cur",
+        "SizeNESW": "nesw.cur",
+        "SizeNS": "ns.cur",
+        "SizeNWSE": "nwse.cur",
+        "SizeWE": "ew.cur",
+        "UpArrow": "",
+        "Wait": "busy.ani"
+    },
+    "author": "B站@泽牛小鲨鱼",
+    "source": "https://www.bilibili.com/video/BV1pK411o7qj/"
+}

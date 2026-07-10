@@ -1,0 +1,25 @@
+{
+    "name": "Helltaker Stroke Version",
+    "cursor": {
+        "AppStarting": "aero_working.ani",
+        "Arrow": "aero_arrow.ani",
+        "Crosshair": "aero_cross.ani",
+        "Hand": "aero_link.ani",
+        "Help": "aero_helpsel.ani",
+        "IBeam": "aero_text.ani",
+        "No": "aero_unavail.ani",
+        "NWPen": "",
+        "Person": "",
+        "Pin": "",
+        "precisionhair": "",
+        "SizeAll": "aero_move.ani",
+        "SizeNESW": "aero_nesw.ani",
+        "SizeNS": "aero_ns.ani",
+        "SizeNWSE": "aero_nwse.ani",
+        "SizeWE": "aero_ew.ani",
+        "UpArrow": "aero_up.ani",
+        "Wait": "aero_busy.ani"
+    },
+    "author": "B站@懒懒的慕斯",
+    "source": "https://www.bilibili.com/opus/400772288980406342"
+}

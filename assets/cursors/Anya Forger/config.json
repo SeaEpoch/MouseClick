@@ -1,0 +1,25 @@
+{
+    "name": "Anya Forger",
+    "cursor": {
+        "AppStarting": "working.ani",
+        "Arrow": "arrow.ani",
+        "Crosshair": "cross.ani",
+        "Hand": "link.ani",
+        "Help": "help.ani",
+        "IBeam": "beam.ani",
+        "No": "no.ani",
+        "NWPen": "pen.ani",
+        "Person": "person.ani",
+        "Pin": "pin.ani",
+        "precisionhair": "",
+        "SizeAll": "move.ani",
+        "SizeNESW": "nesw.ani",
+        "SizeNS": "ns.ani",
+        "SizeNWSE": "nwse.ani",
+        "SizeWE": "we.ani",
+        "UpArrow": "uparrow.ani",
+        "Wait": "busy.ani"
+    },
+    "author": "B站@悠眠Nia",
+    "source": "https://www.bilibili.com/video/BV1PY411u75g/"
+}

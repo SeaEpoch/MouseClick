@@ -1,0 +1,25 @@
+{
+    "name": "摸鱼猫",
+    "cursor": {
+        "AppStarting": "working.ani",
+        "Arrow": "arrow.ani",
+        "Crosshair": "cross.cur",
+        "Hand": "link.ani",
+        "Help": "help.ani",
+        "IBeam": "beam.ani",
+        "No": "no.ani",
+        "NWPen": "pen.ani",
+        "Person": "person.ani",
+        "Pin": "pin.ani",
+        "precisionhair": "",
+        "SizeAll": "move.cur",
+        "SizeNESW": "nesw.cur",
+        "SizeNS": "ns.cur",
+        "SizeNWSE": "nwse.cur",
+        "SizeWE": "we.cur",
+        "UpArrow": "uparrow.ani",
+        "Wait": "busy.ani"
+    },
+    "author": "B站@77不森气",
+    "source": "https://www.bilibili.com/video/BV17W4y1s7c1/"
+}

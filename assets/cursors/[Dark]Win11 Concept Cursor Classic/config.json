@@ -1,0 +1,25 @@
+{
+    "name": "[Dark]Win11 Concept Cursor Classic",
+    "cursor": {
+        "AppStarting": "working.ani",
+        "Arrow": "pointer.cur",
+        "Crosshair": "precision.cur",
+        "Hand": "link.cur",
+        "Help": "help.cur",
+        "IBeam": "beam.cur",
+        "No": "unavailable.cur",
+        "NWPen": "handwriting.cur",
+        "Person": "person.cur",
+        "Pin": "pin.cur",
+        "precisionhair": "precision.cur",
+        "SizeAll": "move.cur",
+        "SizeNESW": "dgn2.cur",
+        "SizeNS": "vert.cur",
+        "SizeNWSE": "dgn1.cur",
+        "SizeWE": "horz.cur",
+        "UpArrow": "alternate.cur",
+        "Wait": "busy.ani"
+    },
+    "author": "致美化@Eldiaz7",
+    "source": "https://zhutix.com/ico/windows-11-cursors-design"
+}

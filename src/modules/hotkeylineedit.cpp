@@ -1,4 +1,5 @@
 #include "hotkeylineedit.h"
+#include "../utils/logger.h"
 
 #include <QWidget>
 #include <QMessageBox>
@@ -108,7 +109,7 @@ void HotkeyLineEdit::keyReleaseEvent(QKeyEvent* event)
 void HotkeyLineEdit::registerGlobalHotkey()
 {
 #ifdef QT_DEBUG
-    qDebug() << "[HotkeyLineEdit]<registerGlobalHotkey>_key_sequence = " << _key_sequence << Qt::endl;
+    LOG_DEBUG(QString("Register Global Hotkey: %1").arg(_key_sequence));
 #endif
 
     unregisterGlobalHotkey(); // 先注销之前的快捷键
