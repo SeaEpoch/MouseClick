@@ -2,6 +2,7 @@
 
 #include <QComboBox>
 #include <QDoubleSpinBox>
+#include <QEvent>
 #include <QFile>
 #include <QLabel>
 #include <QLayout>
@@ -29,13 +30,13 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     central_layout->setSpacing(0);
     central_layout->setContentsMargins(QMargins());
 
-    QLabel* page_title = new QLabel(this);
-    page_title->setObjectName(QStringLiteral("page-title"));
-    page_title->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    page_title->setFocusPolicy(Qt::NoFocus);
-    page_title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    page_title->setText(title);
-    page_title->setMaximumHeight(36);
+    _page_title = new QLabel(this);
+    _page_title->setObjectName(QStringLiteral("page-title"));
+    _page_title->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _page_title->setFocusPolicy(Qt::NoFocus);
+    _page_title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _page_title->setText(title);
+    _page_title->setMaximumHeight(36);
 
     QWidget* page_content = new QWidget(this);
     page_content->setObjectName(QStringLiteral("page-content"));
@@ -56,23 +57,23 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     click_type_content_layout->setSpacing(0);
     click_type_content_layout->setContentsMargins(QMargins());
 
-    QLabel* click_type_desc = new QLabel(click_type_content);
-    click_type_desc->setObjectName(QStringLiteral("click-type-desc"));
-    click_type_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    click_type_desc->setFocusPolicy(Qt::NoFocus);
-    click_type_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    click_type_desc->setText(tr("Click Type"));
+    _click_type_desc = new QLabel(click_type_content);
+    _click_type_desc->setObjectName(QStringLiteral("click-type-desc"));
+    _click_type_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _click_type_desc->setFocusPolicy(Qt::NoFocus);
+    _click_type_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _click_type_desc->setText(tr("Click Type"));
 
-    QComboBox* click_type_list = new QComboBox(click_type_content);
-    click_type_list->setObjectName(QStringLiteral("click-type-list"));
-    click_type_list->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    click_type_list->addItem(QIcon(":/svg/mouse-left.svg"), tr("Left Mouse Button"));
-    click_type_list->addItem(QIcon(":/svg/mouse-right.svg"), tr("Right Mouse Button"));
-    click_type_list->addItem(QIcon(":/svg/mouse-middle.svg"), tr("Middle Mouse Button"));
-    click_type_list->setCurrentIndex(app_settings.ClickType());
+    _click_type_list = new QComboBox(click_type_content);
+    _click_type_list->setObjectName(QStringLiteral("click-type-list"));
+    _click_type_list->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _click_type_list->addItem(QIcon(":/svg/mouse-left.svg"), tr("Left Mouse Button"));
+    _click_type_list->addItem(QIcon(":/svg/mouse-right.svg"), tr("Right Mouse Button"));
+    _click_type_list->addItem(QIcon(":/svg/mouse-middle.svg"), tr("Middle Mouse Button"));
+    _click_type_list->setCurrentIndex(app_settings.ClickType());
 
-    click_type_content_layout->addWidget(click_type_desc);
-    click_type_content_layout->addWidget(click_type_list);
+    click_type_content_layout->addWidget(_click_type_desc);
+    click_type_content_layout->addWidget(_click_type_list);
     click_type_content->setLayout(click_type_content_layout);
 
     /********************/
@@ -84,12 +85,12 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     interval_time_content_layout->setSpacing(0);
     interval_time_content_layout->setContentsMargins(QMargins());
 
-    QLabel* interval_time_desc = new QLabel(interval_time_content);
-    interval_time_desc->setObjectName(QStringLiteral("interval-time-desc"));
-    interval_time_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    interval_time_desc->setFocusPolicy(Qt::NoFocus);
-    interval_time_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    interval_time_desc->setText(tr("Interval Time"));
+    _interval_time_desc = new QLabel(interval_time_content);
+    _interval_time_desc->setObjectName(QStringLiteral("interval-time-desc"));
+    _interval_time_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _interval_time_desc->setFocusPolicy(Qt::NoFocus);
+    _interval_time_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _interval_time_desc->setText(tr("Interval Time"));
 
     QDoubleSpinBox* interval_time = new QDoubleSpinBox(interval_time_content);
     interval_time->setObjectName(QStringLiteral("interval-time"));
@@ -100,7 +101,7 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     interval_time->setSingleStep(0.01);
     interval_time->setValue(app_settings.IntervalTime());
 
-    interval_time_content_layout->addWidget(interval_time_desc);
+    interval_time_content_layout->addWidget(_interval_time_desc);
     interval_time_content_layout->addWidget(interval_time);
     interval_time_content->setLayout(interval_time_content_layout);
 
@@ -113,19 +114,19 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     random_interval_toggle_content_layout->setSpacing(0);
     random_interval_toggle_content_layout->setContentsMargins(QMargins());
 
-    QLabel* random_interval_toggle_desc = new QLabel(random_interval_toggle_content);
-    random_interval_toggle_desc->setObjectName(QStringLiteral("random-interval-toggle-desc"));
-    random_interval_toggle_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    random_interval_toggle_desc->setFocusPolicy(Qt::NoFocus);
-    random_interval_toggle_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    random_interval_toggle_desc->setText(tr("Random Start Interval"));
+    _random_interval_toggle_desc = new QLabel(random_interval_toggle_content);
+    _random_interval_toggle_desc->setObjectName(QStringLiteral("random-interval-toggle-desc"));
+    _random_interval_toggle_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _random_interval_toggle_desc->setFocusPolicy(Qt::NoFocus);
+    _random_interval_toggle_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _random_interval_toggle_desc->setText(tr("Random Start Interval"));
 
     QRadioButton* random_interval_toggle_btn = new QRadioButton(random_interval_toggle_content);
     random_interval_toggle_btn->setObjectName(QStringLiteral("random-interval-toggle-btn"));
     random_interval_toggle_btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     random_interval_toggle_btn->setChecked(app_settings.EnableRandomInterval());
 
-    random_interval_toggle_content_layout->addWidget(random_interval_toggle_desc);
+    random_interval_toggle_content_layout->addWidget(_random_interval_toggle_desc);
     random_interval_toggle_content_layout->addWidget(random_interval_toggle_btn);
     random_interval_toggle_content->setLayout(random_interval_toggle_content_layout);
 
@@ -138,12 +139,12 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     random_interval_time_content_layout->setSpacing(0);
     random_interval_time_content_layout->setContentsMargins(QMargins());
 
-    QLabel* random_interval_time_desc = new QLabel(random_interval_time_content);
-    random_interval_time_desc->setObjectName(QStringLiteral("random-interval-time-desc"));
-    random_interval_time_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    random_interval_time_desc->setFocusPolicy(Qt::NoFocus);
-    random_interval_time_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    random_interval_time_desc->setText(tr("Set Max Random Interval"));
+    _random_interval_time_desc = new QLabel(random_interval_time_content);
+    _random_interval_time_desc->setObjectName(QStringLiteral("random-interval-time-desc"));
+    _random_interval_time_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _random_interval_time_desc->setFocusPolicy(Qt::NoFocus);
+    _random_interval_time_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _random_interval_time_desc->setText(tr("Set Max Random Interval"));
 
     QDoubleSpinBox* random_interval_time = new QDoubleSpinBox(random_interval_time_content);
     random_interval_time->setObjectName(QStringLiteral("random-interval-time"));
@@ -155,7 +156,7 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     random_interval_time->setValue(app_settings.RandomIntervalTime());
     random_interval_time->setEnabled(false);
 
-    random_interval_time_content_layout->addWidget(random_interval_time_desc);
+    random_interval_time_content_layout->addWidget(_random_interval_time_desc);
     random_interval_time_content_layout->addWidget(random_interval_time);
     random_interval_time_content->setLayout(random_interval_time_content_layout);
 
@@ -168,19 +169,19 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     memory_configuration_toggle_content_layout->setSpacing(0);
     memory_configuration_toggle_content_layout->setContentsMargins(QMargins());
 
-    QLabel* memory_configuration_toggle_desc = new QLabel(memory_configuration_toggle_content);
-    memory_configuration_toggle_desc->setObjectName(QStringLiteral("memory-configuration-toggle-desc"));
-    memory_configuration_toggle_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    memory_configuration_toggle_desc->setFocusPolicy(Qt::NoFocus);
-    memory_configuration_toggle_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    memory_configuration_toggle_desc->setText(tr("Memory Configuration"));
+    _memory_configuration_toggle_desc = new QLabel(memory_configuration_toggle_content);
+    _memory_configuration_toggle_desc->setObjectName(QStringLiteral("memory-configuration-toggle-desc"));
+    _memory_configuration_toggle_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _memory_configuration_toggle_desc->setFocusPolicy(Qt::NoFocus);
+    _memory_configuration_toggle_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _memory_configuration_toggle_desc->setText(tr("Memory Configuration"));
 
     QRadioButton* memory_configuration_toggle_btn = new QRadioButton(memory_configuration_toggle_content);
     memory_configuration_toggle_btn->setObjectName(QStringLiteral("random-interval-toggle-btn"));
     memory_configuration_toggle_btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     memory_configuration_toggle_btn->setChecked(app_settings.EnableMemoryConfiguration());
 
-    memory_configuration_toggle_content_layout->addWidget(memory_configuration_toggle_desc);
+    memory_configuration_toggle_content_layout->addWidget(_memory_configuration_toggle_desc);
     memory_configuration_toggle_content_layout->addWidget(memory_configuration_toggle_btn);
     memory_configuration_toggle_content->setLayout(memory_configuration_toggle_content_layout);
 
@@ -193,14 +194,14 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
     page_content_layout->addWidget(memory_configuration_toggle_content);
     page_content_layout->addStretch();
 
-    central_layout->addWidget(page_title);
+    central_layout->addWidget(_page_title);
     central_layout->addWidget(page_content);
 
     setLayout(central_layout);
 
     /********************/
 
-    connect(click_type_list, &QComboBox::currentIndexChanged, &SettingsAgent::instance(), &SettingsAgent::setClickType);
+    connect(_click_type_list, &QComboBox::currentIndexChanged, &SettingsAgent::instance(), &SettingsAgent::setClickType);
     connect(interval_time, &QDoubleSpinBox::valueChanged, &SettingsAgent::instance(), &SettingsAgent::setIntervalTime);
 
     connect(random_interval_toggle_btn, &QRadioButton::toggled, random_interval_time,[random_interval_time, interval_time](bool checked) {
@@ -219,18 +220,18 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
             NavPage::_clicker_thread->quit();
             NavPage::_clicker_thread->wait();
 
-            click_type_list->setEnabled(true);
+            _click_type_list->setEnabled(true);
             interval_time->setEnabled(!random_interval_toggle_btn->isChecked());
             random_interval_toggle_btn->setEnabled(true);
             random_interval_time->setEnabled(random_interval_toggle_btn->isChecked());
             memory_configuration_toggle_btn->setEnabled(true);
         } else {
             Qt::MouseButton btn_type;
-            if (click_type_list->currentIndex() == 0) {
+            if (_click_type_list->currentIndex() == 0) {
                 btn_type = Qt::LeftButton;
-            } else if (click_type_list->currentIndex() == 1) {
+            } else if (_click_type_list->currentIndex() == 1) {
                 btn_type = Qt::RightButton;
-            } else if (click_type_list->currentIndex() == 2) {
+            } else if (_click_type_list->currentIndex() == 2) {
                 btn_type = Qt::MiddleButton;
             } else {
                 btn_type = Qt::LeftButton;
@@ -243,7 +244,7 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
             NavPage::_clicker->initParameters(btn_type, interval, random_interval_flag, max_random_interval);
             NavPage::_clicker_thread->start();   // Note: This should be initiated through a sub-thread.
 
-            click_type_list->setEnabled(false);
+            _click_type_list->setEnabled(false);
             interval_time->setEnabled(false);
             random_interval_toggle_btn->setEnabled(false);
             random_interval_time->setEnabled(false);
@@ -265,4 +266,25 @@ MouseClickPage::~MouseClickPage()
 QString& MouseClickPage::getThemeFiles(Theme::ThemeMode theme)
 {
     return MouseClickPage::_theme_files[theme];
+}
+
+void MouseClickPage::retranslateUi()
+{
+    _page_title->setText(tr("Mouse Click"));
+    _click_type_desc->setText(tr("Click Type"));
+    _click_type_list->setItemText(0, tr("Left Mouse Button"));
+    _click_type_list->setItemText(1, tr("Right Mouse Button"));
+    _click_type_list->setItemText(2, tr("Middle Mouse Button"));
+    _interval_time_desc->setText(tr("Interval Time"));
+    _random_interval_toggle_desc->setText(tr("Random Start Interval"));
+    _random_interval_time_desc->setText(tr("Set Max Random Interval"));
+    _memory_configuration_toggle_desc->setText(tr("Memory Configuration"));
+}
+
+void MouseClickPage::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        retranslateUi();
+    }
+    NavPage::changeEvent(event);
 }

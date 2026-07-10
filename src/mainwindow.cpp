@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QCoreApplication>
+#include <QEvent>
 #include <QFile>
 #include <QGuiApplication>
 #include <QMessageBox>
@@ -211,28 +212,28 @@ void MainWindow::UIWidgetInit()
     const QString beautify_cursor_page_title = tr("Beautify Cursor");
     const QString settings_page_title = tr("Settings");
 
-    QPushButton* mouse_click = new QPushButton(mouse_click_page_title, navigation);
-    QPushButton* beautify_cursor = new QPushButton(beautify_cursor_page_title, navigation);
-    QPushButton* settings = new QPushButton(settings_page_title, navigation);
+    _nav_mouse_click = new QPushButton(mouse_click_page_title, navigation);
+    _nav_beautify_cursor = new QPushButton(beautify_cursor_page_title, navigation);
+    _nav_settings = new QPushButton(settings_page_title, navigation);
 
-    mouse_click->setCheckable(true);
-    beautify_cursor->setCheckable(true);
-    settings->setCheckable(true);
+    _nav_mouse_click->setCheckable(true);
+    _nav_beautify_cursor->setCheckable(true);
+    _nav_settings->setCheckable(true);
 
-    mouse_click->setObjectName(QStringLiteral("nav-item-mouse-click"));
-    beautify_cursor->setObjectName(QStringLiteral("nav-item-beautify-cursor"));
-    settings->setObjectName(QStringLiteral("nav-item-settings"));
+    _nav_mouse_click->setObjectName(QStringLiteral("nav-item-mouse-click"));
+    _nav_beautify_cursor->setObjectName(QStringLiteral("nav-item-beautify-cursor"));
+    _nav_settings->setObjectName(QStringLiteral("nav-item-settings"));
 
-    navigation_item_btn_group->addButton(mouse_click);
-    navigation_item_btn_group->addButton(beautify_cursor);
-    navigation_item_btn_group->addButton(settings);
+    navigation_item_btn_group->addButton(_nav_mouse_click);
+    navigation_item_btn_group->addButton(_nav_beautify_cursor);
+    navigation_item_btn_group->addButton(_nav_settings);
 
-    navigation->setItemWidget(mouse_click_item, 0, mouse_click);
-    navigation->setItemWidget(beautify_cursor_item, 0, beautify_cursor);
-    navigation->setItemWidget(settings_item, 0, settings);
+    navigation->setItemWidget(mouse_click_item, 0, _nav_mouse_click);
+    navigation->setItemWidget(beautify_cursor_item, 0, _nav_beautify_cursor);
+    navigation->setItemWidget(settings_item, 0, _nav_settings);
 
     // set Default selected
-    mouse_click->setChecked(true);
+    _nav_mouse_click->setChecked(true);
     navigation->setCurrentItem(mouse_click_item);
 
     QStackedWidget* navigation_pages = new QStackedWidget(central_widget);
@@ -257,18 +258,34 @@ void MainWindow::UIWidgetInit()
 
     connect(navigation, &QTreeWidget::currentItemChanged, this, [=](QTreeWidgetItem *current, QTreeWidgetItem *previous) {
         if (current == mouse_click_item) {
-            mouse_click->setChecked(true);
+            _nav_mouse_click->setChecked(true);
             navigation_pages->setCurrentIndex(0);
         } else if (current == beautify_cursor_item) {
-            beautify_cursor->setChecked(true);
+            _nav_beautify_cursor->setChecked(true);
             navigation_pages->setCurrentIndex(1);
         } else if (current == settings_item) {
-            settings->setChecked(true);
+            _nav_settings->setChecked(true);
             navigation_pages->setCurrentIndex(2);
         }
     });
 
     setCentralWidget(central_widget);
+}
+
+void MainWindow::retranslateUi()
+{
+    setWindowTitle(tr("MouseClick"));
+    _nav_mouse_click->setText(tr("Mouse Click"));
+    _nav_beautify_cursor->setText(tr("Beautify Cursor"));
+    _nav_settings->setText(tr("Settings"));
+}
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        retranslateUi();
+    }
+    QMainWindow::changeEvent(event);
 }
 
 void MainWindow::connectInit()

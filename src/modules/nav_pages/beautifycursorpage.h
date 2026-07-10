@@ -15,15 +15,21 @@ public:
     explicit BeautifyCursorPage(const QString &title, QWidget *parent = nullptr);
     ~BeautifyCursorPage();
 
+protected:
+    void changeEvent(QEvent *event) override;
+
 private:
     Q_DISABLE_COPY(BeautifyCursorPage)
 
     static QMap<Theme::ThemeMode, QString> _theme_files;
     QMap<QString, QJsonObject> _cursors;
 
+    QLabel* _page_title;
+
     QString &getThemeFiles(Theme::ThemeMode theme) override;
     void loadCursorInfo(const QString &path);
     QJsonObject getConfigJsonObj(const QString &file_path);
+    void retranslateUi();
 };
 
 class CursorListItem : public QWidget
@@ -42,6 +48,7 @@ public:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 private:
     QPushButton* _install_btn;
@@ -52,6 +59,7 @@ private:
     QTimer* _hover_timer;
 
     void openSourceUrl();
+    void retranslateUi();
 };
 
 #endif // BEAUTIFYCURSORPAGE_H

@@ -1,12 +1,8 @@
 #include "mainwindow.h"
 
 #include <QApplication>
-#include <QLocale>
-#include <QTranslator>
 #include <QFont>
 #include <QFontDatabase>
-#include <QSettings>
-#include <QFile>
 
 #include "modules/settingsagent.h"
 
@@ -20,11 +16,7 @@ int main(int argc, char* argv[])
 
     // 国际化
     SettingsAgent& app_settings = SettingsAgent::instance(); // 全局第一次初始化
-    QTranslator translator;
-    const QString base_name = "MouseClick_" + app_settings.Language();
-    if (translator.load(":/i18n/" + base_name)) {
-        app.installTranslator(&translator);
-    }
+    app_settings.initTranslator();
 
     // 设置字体
     int font_id = QFontDatabase::addApplicationFont(":/fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Regular.ttf");

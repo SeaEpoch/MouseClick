@@ -1,17 +1,18 @@
 #include "settingspage.h"
 
-#include <QFile>
-#include <QThread>
-#include <QBoxLayout>
-#include <QLabel>
-#include <QPushButton>
-#include <QRadioButton>
 #include <QApplication>
+#include <QBoxLayout>
 #include <QComboBox>
 #include <QDir>
-#include <QTranslator>
+#include <QEvent>
+#include <QFile>
+#include <QLabel>
 #include <QProcess>
+#include <QPushButton>
+#include <QRadioButton>
 #include <QSettings>
+#include <QThread>
+#include <QTranslator>
 
 #include "../hotkeylineedit.h"
 #include "../settingsagent.h"
@@ -25,7 +26,12 @@ QMap<Theme::ThemeMode, QString> SettingsPage::_theme_files {
 SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     : NavPage{parent},
       _hotkey_reader(nullptr),
-      _hotkey_clean(nullptr)
+      _hotkey_clean(nullptr),
+      _page_title(nullptr),
+      _hotkey_desc(nullptr),
+      _theme_toggle_desc(nullptr),
+      _language_switch_desc(nullptr),
+      _language_list(nullptr)
 {
     SettingsAgent& app_settings = SettingsAgent::instance();
 
@@ -35,13 +41,13 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     central_layout->setSpacing(0);
     central_layout->setContentsMargins(QMargins());
 
-    QLabel* page_title = new QLabel(this);
-    page_title->setObjectName(QStringLiteral("page-title"));
-    page_title->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    page_title->setFocusPolicy(Qt::NoFocus);
-    page_title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    page_title->setText(title);
-    page_title->setMaximumHeight(36);
+    _page_title = new QLabel(this);
+    _page_title->setObjectName(QStringLiteral("page-title"));
+    _page_title->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _page_title->setFocusPolicy(Qt::NoFocus);
+    _page_title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _page_title->setText(title);
+    _page_title->setMaximumHeight(36);
 
     QWidget* page_content = new QWidget(this);
     page_content->setObjectName(QStringLiteral("page-content"));
@@ -62,12 +68,12 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     hotkey_content_layout->setSpacing(0);
     hotkey_content_layout->setContentsMargins(QMargins());
 
-    QLabel* hotkey_desc = new QLabel(hotkey_content);
-    hotkey_desc->setObjectName(QStringLiteral("hotkey-desc"));
-    hotkey_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    hotkey_desc->setFocusPolicy(Qt::NoFocus);
-    hotkey_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    hotkey_desc->setText(tr("Start/End Hotkey"));
+    _hotkey_desc = new QLabel(hotkey_content);
+    _hotkey_desc->setObjectName(QStringLiteral("hotkey-desc"));
+    _hotkey_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _hotkey_desc->setFocusPolicy(Qt::NoFocus);
+    _hotkey_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _hotkey_desc->setText(tr("Start/End Hotkey"));
 
     _hotkey_reader = new HotkeyLineEdit(hotkey_content);
     _hotkey_reader->setObjectName(QStringLiteral("hotkey-reader"));
@@ -82,7 +88,7 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
         _hotkey_reader->setHotkey(pre_hotkey);  // 上一次使用的快捷键
     }
 
-    hotkey_content_layout->addWidget(hotkey_desc);
+    hotkey_content_layout->addWidget(_hotkey_desc);
     hotkey_content_layout->addWidget(_hotkey_reader);
     hotkey_content->setLayout(hotkey_content_layout);
 
@@ -103,19 +109,19 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     theme_toggle_content_layout->setSpacing(0);
     theme_toggle_content_layout->setContentsMargins(QMargins());
 
-    QLabel* theme_toggle_desc = new QLabel(theme_toggle_content);
-    theme_toggle_desc->setObjectName(QStringLiteral("theme-toggle-desc"));
-    theme_toggle_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    theme_toggle_desc->setFocusPolicy(Qt::NoFocus);
-    theme_toggle_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    theme_toggle_desc->setText(tr("Dark Theme"));
+    _theme_toggle_desc = new QLabel(theme_toggle_content);
+    _theme_toggle_desc->setObjectName(QStringLiteral("theme-toggle-desc"));
+    _theme_toggle_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _theme_toggle_desc->setFocusPolicy(Qt::NoFocus);
+    _theme_toggle_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _theme_toggle_desc->setText(tr("Dark Theme"));
 
     QRadioButton* theme_toggle_btn = new QRadioButton(theme_toggle_content);
     theme_toggle_btn->setObjectName(QStringLiteral("theme-toggle-btn"));
     theme_toggle_btn->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     theme_toggle_btn->setChecked(static_cast<bool>(app_settings.ThemeMode()));
 
-    theme_toggle_content_layout->addWidget(theme_toggle_desc);
+    theme_toggle_content_layout->addWidget(_theme_toggle_desc);
     theme_toggle_content_layout->addWidget(theme_toggle_btn);
     theme_toggle_content->setLayout(theme_toggle_content_layout);
 
@@ -128,34 +134,34 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     language_switch_content_layout->setSpacing(0);
     language_switch_content_layout->setContentsMargins(QMargins());
 
-    QLabel* language_switch_desc = new QLabel(language_switch_content);
-    language_switch_desc->setObjectName(QStringLiteral("language-switch-desc"));
-    language_switch_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    language_switch_desc->setFocusPolicy(Qt::NoFocus);
-    language_switch_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    language_switch_desc->setText(tr("Language"));
+    _language_switch_desc = new QLabel(language_switch_content);
+    _language_switch_desc->setObjectName(QStringLiteral("language-switch-desc"));
+    _language_switch_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _language_switch_desc->setFocusPolicy(Qt::NoFocus);
+    _language_switch_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _language_switch_desc->setText(tr("Language"));
 
-    QComboBox* language_list = new QComboBox(language_switch_content);
-    language_list->setObjectName(QStringLiteral("language-list"));
-    language_list->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    language_list->addItem(tr("English(United States)"), QVariant("en_US"));
-    language_list->addItem(tr("Chinese(Simplified)"), QVariant("zh_CN"));
-    language_list->addItem(tr("Chinese(Traditional)"), QVariant("zh_TW"));
+    _language_list = new QComboBox(language_switch_content);
+    _language_list->setObjectName(QStringLiteral("language-list"));
+    _language_list->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _language_list->addItem(tr("English(United States)"), QVariant("en_US"));
+    _language_list->addItem(tr("Chinese(Simplified)"), QVariant("zh_CN"));
+    _language_list->addItem(tr("Chinese(Traditional)"), QVariant("zh_TW"));
 
     // 确定当前的语言
     QString current_language = app_settings.Language();
 
     // 遍历 QComboBox 项目，找到对应的选项并设置为选中状态
-    for (int i = 0; i < language_list->count(); ++i) {
-        QVariant item_data = language_list->itemData(i);
+    for (int i = 0; i < _language_list->count(); ++i) {
+        QVariant item_data = _language_list->itemData(i);
         if (item_data.toString() == current_language) {
-            language_list->setCurrentIndex(i);
+            _language_list->setCurrentIndex(i);
             break;
         }
     }
 
-    language_switch_content_layout->addWidget(language_switch_desc);
-    language_switch_content_layout->addWidget(language_list);
+    language_switch_content_layout->addWidget(_language_switch_desc);
+    language_switch_content_layout->addWidget(_language_list);
     language_switch_content->setLayout(language_switch_content_layout);
 
     /********************/
@@ -166,7 +172,7 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     page_content_layout->addWidget(language_switch_content);
     page_content_layout->addStretch();
 
-    central_layout->addWidget(page_title);
+    central_layout->addWidget(_page_title);
     central_layout->addWidget(page_content);
 
     setLayout(central_layout);
@@ -196,16 +202,14 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
         SettingsAgent::instance().setHotkey(hotkey);
     });
 
-    connect(language_list, &QComboBox::currentIndexChanged, this, [=](int index) {
-        SettingsAgent& app_settings = SettingsAgent::instance();  // 必须重新获取才能使用接口
-        QString selected_language = language_list->itemData(index).toString();
+    connect(_language_list, &QComboBox::currentIndexChanged, this, [=](int index) {
+        SettingsAgent& app_settings = SettingsAgent::instance();
+        QString selected_language = _language_list->itemData(index).toString();
 
         // 判断选择的语言是否和当前语言相同，不同则进行切换
         if (selected_language != app_settings.Language()) {
             app_settings.setLanguage(selected_language);
-
-            // 重新启动应用程序以应用新语言
-            restartApplication();
+            // setLanguage() 内部已触发 translator 热切换 + currentLanguageChanged 信号
         }
     });
 }
@@ -219,4 +223,40 @@ SettingsPage::~SettingsPage()
 QString& SettingsPage::getThemeFiles(Theme::ThemeMode theme)
 {
     return SettingsPage::_theme_files[theme];
+}
+
+void SettingsPage::retranslateUi()
+{
+    _page_title->setText(tr("Settings"));
+    _hotkey_desc->setText(tr("Start/End Hotkey"));
+    _hotkey_clean->setText(tr("Hotkey Clean"));
+    _hotkey_reader->setPlaceholderText(tr("Please set a shortcut hotkey"));
+    _theme_toggle_desc->setText(tr("Dark Theme"));
+    _language_switch_desc->setText(tr("Language"));
+
+    // 语言选择下拉框需要重建项目（保留当前选中值）
+    // blockSignals 防止 clear/addItem/setCurrentIndex 触发 currentIndexChanged，
+    // 否则会再次调用 setLanguage() 导致递归
+    const QVariant currentLang = _language_list->currentData();
+    _language_list->blockSignals(true);
+    _language_list->clear();
+    _language_list->addItem(tr("English(United States)"), QVariant("en_US"));
+    _language_list->addItem(tr("Chinese(Simplified)"), QVariant("zh_CN"));
+    _language_list->addItem(tr("Chinese(Traditional)"), QVariant("zh_TW"));
+
+    for (int i = 0; i < _language_list->count(); ++i) {
+        if (_language_list->itemData(i) == currentLang) {
+            _language_list->setCurrentIndex(i);
+            break;
+        }
+    }
+    _language_list->blockSignals(false);
+}
+
+void SettingsPage::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        retranslateUi();
+    }
+    NavPage::changeEvent(event);
 }

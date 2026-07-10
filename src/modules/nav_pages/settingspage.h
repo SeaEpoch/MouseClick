@@ -2,6 +2,7 @@
 #define SETTINGSPAGE_H
 
 #include <QComboBox>
+#include <QLabel>
 #include <QWidget>
 
 #include "navpage.h"
@@ -15,6 +16,9 @@ public:
     explicit SettingsPage(const QString& title, QWidget* parent = nullptr);
     ~SettingsPage();
 
+protected:
+    void changeEvent(QEvent *event) override;
+
 private:
     Q_DISABLE_COPY(SettingsPage)
 
@@ -22,7 +26,15 @@ private:
     HotkeyLineEdit* _hotkey_reader;
     QPushButton* _hotkey_clean;
 
+    // 可翻译控件
+    QLabel* _page_title;
+    QLabel* _hotkey_desc;
+    QLabel* _theme_toggle_desc;
+    QLabel* _language_switch_desc;
+    QComboBox* _language_list;
+
     QString& getThemeFiles(Theme::ThemeMode theme) override;
+    void retranslateUi();
 };
 
 #endif // SETTINGSPAGE_H

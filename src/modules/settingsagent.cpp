@@ -58,7 +58,38 @@ void SettingsAgent::setLanguage(const QString& language)
 {
     if (_config["Language"].toString() != language) {
         _config["Language"] = language;
+        loadLanguageFile(language);
         emit currentLanguageChanged(language);
+    }
+}
+
+void SettingsAgent::initTranslator()
+{
+    _translator = new QTranslator(this);
+    loadLanguageFile(_config["Language"].toString());
+}
+
+void SettingsAgent::loadLanguageFile(const QString& language)
+{
+    const QString qmPath = ":/i18n/MouseClick_" + language;
+
+    if (!_translator_loaded) {
+        // 首次加载
+        _translator_loaded = _translator->load(qmPath);
+        if (_translator_loaded) {
+            QCoreApplication::installTranslator(_translator);
+        }
+    } else {
+        // 运行时切换：先卸载旧翻译，加载新翻译
+        QCoreApplication::removeTranslator(_translator);
+        QTranslator* newTranslator = new QTranslator(this);
+        if (newTranslator->load(qmPath)) {
+            delete _translator;
+            _translator = newTranslator;
+        } else {
+            delete newTranslator;
+        }
+        QCoreApplication::installTranslator(_translator);
     }
 }
 
@@ -113,7 +144,9 @@ void SettingsAgent::setEnableMemoryConfiguration(bool memory_configuration)
 }
 
 SettingsAgent::SettingsAgent(QObject *parent)
-    : QObject{parent}
+    : QObject{parent},
+      _translator(nullptr),
+      _translator_loaded(false)
 {
     _settings_file_path = QCoreApplication::applicationDirPath() + "/config.ini";
     QFile settings_file(_settings_file_path);

@@ -26,7 +26,8 @@ QMap<Theme::ThemeMode, QString> BeautifyCursorPage::_theme_files{
     {Theme::Dark, (":/qss/modules/dark-beautifycursorpage.qss")}};
 
 BeautifyCursorPage::BeautifyCursorPage(const QString &title, QWidget *parent)
-    : NavPage{parent} {
+    : NavPage{parent},
+      _page_title(nullptr) {
     SettingsAgent &app_settings = SettingsAgent::instance();
 
     LoadThemeStyleSheet(app_settings.ThemeMode());
@@ -35,13 +36,13 @@ BeautifyCursorPage::BeautifyCursorPage(const QString &title, QWidget *parent)
     central_layout->setSpacing(0);
     central_layout->setContentsMargins(QMargins());
 
-    QLabel *page_title = new QLabel(this);
-    page_title->setObjectName(QStringLiteral("page-title"));
-    page_title->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    page_title->setFocusPolicy(Qt::NoFocus);
-    page_title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    page_title->setText(title);
-    page_title->setMaximumHeight(36);
+    _page_title = new QLabel(this);
+    _page_title->setObjectName(QStringLiteral("page-title"));
+    _page_title->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _page_title->setFocusPolicy(Qt::NoFocus);
+    _page_title->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _page_title->setText(title);
+    _page_title->setMaximumHeight(36);
 
     QWidget *page_content = new QWidget(this);
     page_content->setObjectName(QStringLiteral("page-content"));
@@ -208,13 +209,26 @@ BeautifyCursorPage::BeautifyCursorPage(const QString &title, QWidget *parent)
 
     page_content_layout->addWidget(cursors_style_list);
 
-    central_layout->addWidget(page_title);
+    central_layout->addWidget(_page_title);
     central_layout->addWidget(page_content);
 
     setLayout(central_layout);
 }
 
 BeautifyCursorPage::~BeautifyCursorPage() {}
+
+void BeautifyCursorPage::retranslateUi()
+{
+    _page_title->setText(tr("Beautify Cursor"));
+}
+
+void BeautifyCursorPage::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        retranslateUi();
+    }
+    NavPage::changeEvent(event);
+}
 
 QString &BeautifyCursorPage::getThemeFiles(Theme::ThemeMode theme) {
     return BeautifyCursorPage::_theme_files[theme];
@@ -368,4 +382,19 @@ void CursorListItem::openSourceUrl()
     if (confirmBox.clickedButton() == openBtn) {
         QDesktopServices::openUrl(QUrl(_source_url));
     }
+}
+
+void CursorListItem::retranslateUi()
+{
+    _install_btn->setText(tr("Install"));
+    _apply_btn->setText(tr("Apply"));
+    _uninstall_btn->setText(tr("Uninstall"));
+}
+
+void CursorListItem::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        retranslateUi();
+    }
+    QWidget::changeEvent(event);
 }

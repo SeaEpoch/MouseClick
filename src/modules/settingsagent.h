@@ -6,6 +6,7 @@
 #include <QMap>
 #include <QObject>
 #include <QSettings>
+#include <QTranslator>
 
 class SettingsAgent : public QObject
 {
@@ -13,6 +14,8 @@ class SettingsAgent : public QObject
 public:
     // 接口
     static SettingsAgent& instance();
+
+    void initTranslator();
 
     /***** 相关的 getter 与 settter *****/
     Theme::ThemeMode ThemeMode() const;
@@ -56,6 +59,11 @@ private:
 
     // 所有配置以键值对形式存储
     QMap<QString, QVariant> _config;
+
+    // 翻译器（运行时语言热切换）
+    QTranslator* _translator;
+    bool _translator_loaded;
+    void loadLanguageFile(const QString& language);
 
     // 配置文件完整文件路径
     QString _settings_file_path;
