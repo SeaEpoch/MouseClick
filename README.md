@@ -65,7 +65,7 @@
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=SeaYJ/MouseClick&type=Date)](https://star-history.com/#SeaYJ/MouseClick&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=SeaEpoch/MouseClick&type=Date)](https://www.star-history.com/#SeaEpoch/MouseClick&Date)
 
 # 📄 开源证书
 
