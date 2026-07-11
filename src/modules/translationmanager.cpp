@@ -14,7 +14,7 @@ TranslationManager::TranslationManager(QObject* parent)
 
 TranslationManager::~TranslationManager()
 {
-    if (_loaded) {
+    if (_loaded && qApp) {
         QCoreApplication::removeTranslator(_translator);
     }
 }

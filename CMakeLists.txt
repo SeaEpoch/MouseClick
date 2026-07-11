@@ -47,6 +47,7 @@ set(PROJECT_SOURCES
         src/modules/shared.h                        src/modules/shared.cpp
         src/modules/hotkeylineedit.h                src/modules/hotkeylineedit.cpp
         src/modules/messagebox.h                    src/modules/messagebox.cpp
+        src/modules/traymenu.h                      src/modules/traymenu.cpp
         src/utils/clicker.h                         src/utils/clicker.cpp
         src/utils/logger.h                          src/utils/logger.cpp
         src/utils/cursormanager.h                   src/utils/cursormanager.cpp

@@ -29,6 +29,7 @@
 #include "modules/nav_pages/mouseclickpage.h"
 #include "modules/nav_pages/settingspage.h"
 #include "modules/settingsagent.h"
+#include "modules/traymenu.h"
 
 QMap<Theme::ThemeMode, QString> MainWindow::_theme_files {
     {Theme::Light, (":/qss/light-style.qss")},
@@ -352,6 +353,7 @@ void MainWindow::changeEvent(QEvent *event)
 void MainWindow::connectInit()
 {
     connect(&SettingsAgent::instance(), &SettingsAgent::currentThemeChanged, this, &MainWindow::loadThemeStyelSheet);
+    connect(&SettingsAgent::instance(), &SettingsAgent::currentThemeChanged, this, &MainWindow::applyTrayMenuStyle);
     connect(this, &MainWindow::windowStateChanged, &SettingsAgent::instance(), &SettingsAgent::setWindowState);
 }
 
@@ -402,7 +404,7 @@ void MainWindow::setupSystemTray()
     _tray_icon = new QSystemTrayIcon(QIcon(":/svg/favicon.svg"), this);
     _tray_icon->setToolTip(tr("MouseClick"));
 
-    _tray_menu = new QMenu(this);
+    _tray_menu = new TrayMenu(this);
 
     _tray_open_action = _tray_menu->addAction(tr("Open Main Interface"));
     _tray_menu->addSeparator();
@@ -410,9 +412,11 @@ void MainWindow::setupSystemTray()
     _tray_menu->addSeparator();
     _tray_exit_action = _tray_menu->addAction(tr("Exit"));
 
-    _tray_icon->setContextMenu(_tray_menu);
+    // 不使用 setContextMenu()，改用 popup() 手动弹出 Qt 渲染菜单，
+    // 以便 QSS 样式（深色/浅色主题）能正确应用到菜单背景与文字
+    applyTrayMenuStyle();
 
-    // 左键/双击托盘图标：恢复窗口
+    // 托盘图标交互：左键/双击恢复窗口，右键弹出菜单
     connect(_tray_icon, &QSystemTrayIcon::activated, this,
             [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::Trigger ||
@@ -424,6 +428,8 @@ void MainWindow::setupSystemTray()
             }
             raise();
             activateWindow();
+        } else if (reason == QSystemTrayIcon::Context) {
+            _tray_menu->popup(QCursor::pos());
         }
     });
 
@@ -457,4 +463,14 @@ void MainWindow::setupSystemTray()
     });
 
     _tray_icon->show();
+}
+
+void MainWindow::applyTrayMenuStyle()
+{
+    if (!_tray_menu) {
+        return;
+    }
+
+    bool is_dark = SettingsAgent::instance().ThemeMode() == Theme::Dark;
+    _tray_menu->setDarkMode(is_dark);
 }

@@ -4,7 +4,6 @@
 #include "modules/shared.h"
 
 #include <QMainWindow>
-#include <QMenu>
 #include <QPushButton>
 #include <QSystemTrayIcon>
 
@@ -18,6 +17,7 @@ template <class Key, class T> class QMap;
 class QStackedWidget;
 class SettingsPage;
 class QAction;
+class TrayMenu;
 
 class MainWindow : public QMainWindow
 {
@@ -46,7 +46,7 @@ private:
 
     // 系统托盘
     QSystemTrayIcon* _tray_icon = nullptr;
-    QMenu* _tray_menu = nullptr;
+    TrayMenu* _tray_menu = nullptr;
     QAction* _tray_open_action = nullptr;
     QAction* _tray_website_action = nullptr;
     QAction* _tray_exit_action = nullptr;
@@ -64,6 +64,7 @@ private:
     void UIWidgetInit();
     void connectInit();
     void setupSystemTray();
+    void applyTrayMenuStyle();
     void retranslateUi();
 };
 
