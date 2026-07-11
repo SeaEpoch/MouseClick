@@ -54,6 +54,9 @@ compile_commands.json
 
 *_qmlcache.qrc
 
-# 排除 deps 目录及其子目录
+# 保留 deps 目录及其子目录所有内容
 !deps/
 !deps/**
+
+# 排除构建后的安装程序
+/MouseClickSetup.exe
