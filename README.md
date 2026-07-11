@@ -106,7 +106,7 @@ assets
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=SeaEpoch/MouseClick&type=Date)](https://www.star-history.com/#SeaEpoch/MouseClick&Date)
+[![Star History Chart](https://api.star-history.com/chart?repos=SeaEpoch/MouseClick&type=timeline&legend=top-left&sealed_token=ooA3TbEiAJnjx_pUl0OhEv25D8MvG8xH4Hu6XGUmcXcW05xUku7FJo5WbspXk2I9GFcfD0jrbuTN3acc53vAGRRP1Eko4h_cJlcJ_aVN2xRXN9ggLtlx7itUReireomKJHelFCMYnRsHhrkPZu0NmvQOoqzkJ1FZaO2bXaFy62DUA-uFRI42JlYdV-2M)](https://www.star-history.com/?repos=SeaEpoch%2FMouseClick&type=timeline&legend=top-left)
 
 ## 📄 开源证书
 
