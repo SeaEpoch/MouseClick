@@ -4,7 +4,9 @@
 #include "modules/shared.h"
 
 #include <QMainWindow>
+#include <QMenu>
 #include <QPushButton>
+#include <QSystemTrayIcon>
 
 namespace QWK
 {
@@ -15,6 +17,7 @@ template <class Key, class T> class QMap;
 
 class QStackedWidget;
 class SettingsPage;
+class QAction;
 
 class MainWindow : public QMainWindow
 {
@@ -27,6 +30,7 @@ public:
 protected:
     bool event(QEvent *event) override;
     void changeEvent(QEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
 
 signals:
     void windowStateChanged(Qt::WindowStates newState);
@@ -40,6 +44,16 @@ private:
     SettingsPage* _settings_page = nullptr;
     QStackedWidget* _navigation_pages = nullptr;
 
+    // 系统托盘
+    QSystemTrayIcon* _tray_icon = nullptr;
+    QMenu* _tray_menu = nullptr;
+    QAction* _tray_open_action = nullptr;
+    QAction* _tray_website_action = nullptr;
+    QAction* _tray_exit_action = nullptr;
+    bool _force_quit = false;
+    bool _was_maximized_before_tray = false;
+    bool _was_hidden_before_clicker = false;
+
     // 导航按钮（语言切换需要重新设置文本）
     QPushButton* _nav_mouse_click;
     QPushButton* _nav_beautify_cursor;
@@ -49,6 +63,7 @@ private:
     void loadThemeStyelSheet(Theme::ThemeMode theme);
     void UIWidgetInit();
     void connectInit();
+    void setupSystemTray();
     void retranslateUi();
 };
 

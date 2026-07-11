@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 
+#include <QApplication>
+#include <QBoxLayout>
+#include <QCloseEvent>
 #include <QCoreApplication>
 #include <QEvent>
 #include <QFile>
@@ -16,6 +19,7 @@
 #include <QThread>
 #include <QTime>
 #include <QTreeWidget>
+#include <QUrl>
 
 #include <QWKWidgets/widgetwindowagent.h>
 #include "modules/nav_pages/beautifycursorpage.h"
@@ -85,15 +89,49 @@ MainWindow::MainWindow(QWidget* parent)
 
     UIWidgetInit();
 
-    // 连点运行时禁用页面内容区（导航栏保持可交互）
+    // 连点运行时禁用页面内容区（导航栏保持可交互），最小化至系统托盘 / 恢复窗口
     connect(_settings_page, &SettingsPage::hotkeyActivated, this, [this]() {
         bool running = NavPage::clickerThread()->isRunning();
         _navigation_pages->setEnabled(!running);
+
+        if (running) {
+            // 连点已启动：最小化到系统托盘
+            _was_maximized_before_tray = isMaximized();
+            _was_hidden_before_clicker = !isVisible();
+            hide();
+            if (_tray_icon) {
+                _tray_icon->showMessage(
+                    tr("MouseClick"),
+                    tr("Clicker started"),
+                    QSystemTrayIcon::Information,
+                    3000);
+            }
+        } else {
+            // 连点已停止：仅在启动前为显示状态时才恢复窗口
+            if (!_was_hidden_before_clicker) {
+                if (_was_maximized_before_tray) {
+                    showMaximized();
+                } else {
+                    showNormal();
+                }
+                raise();
+                activateWindow();
+            }
+            if (_tray_icon) {
+                _tray_icon->showMessage(
+                    tr("MouseClick"),
+                    tr("Clicker stopped"),
+                    QSystemTrayIcon::Information,
+                    3000);
+            }
+        }
     });
 
     /******************/
 
     connectInit();
+
+    setupSystemTray();
 }
 
 void MainWindow::windowInit(const QString& title, const QIcon& icon)
@@ -287,6 +325,20 @@ void MainWindow::retranslateUi()
     _nav_mouse_click->setText(tr("Mouse Click"));
     _nav_beautify_cursor->setText(tr("Beautify Cursor"));
     _nav_settings->setText(tr("Settings"));
+
+    // 更新系统托盘菜单文本
+    if (_tray_open_action) {
+        _tray_open_action->setText(tr("Open Main Interface"));
+    }
+    if (_tray_website_action) {
+        _tray_website_action->setText(tr("Official Website"));
+    }
+    if (_tray_exit_action) {
+        _tray_exit_action->setText(tr("Exit"));
+    }
+    if (_tray_icon) {
+        _tray_icon->setToolTip(tr("MouseClick"));
+    }
 }
 
 void MainWindow::changeEvent(QEvent *event)
@@ -313,4 +365,96 @@ bool MainWindow::event(QEvent *event)
         emit windowStateChanged(newState);
     }
     return QWidget::event(event); // 保留其他事件处理
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (_force_quit || QCoreApplication::closingDown()) {
+        event->accept();
+        QMainWindow::closeEvent(event);
+        return;
+    }
+
+    if (SettingsAgent::instance().CloseButtonBehavior() == "minimize") {
+        // 最小化至系统托盘
+        _was_maximized_before_tray = isMaximized();
+        hide();
+        event->ignore();
+    } else {
+        // 正常退出
+        event->accept();
+        // 停止连点（如果正在运行）
+        if (NavPage::clickerThread()->isRunning()) {
+            NavPage::clicker()->stop();
+            NavPage::clickerThread()->quit();
+            NavPage::clickerThread()->wait();
+        }
+        QApplication::quit();
+    }
+}
+
+void MainWindow::setupSystemTray()
+{
+    if (!QSystemTrayIcon::isSystemTrayAvailable()) {
+        return;
+    }
+
+    _tray_icon = new QSystemTrayIcon(QIcon(":/svg/favicon.svg"), this);
+    _tray_icon->setToolTip(tr("MouseClick"));
+
+    _tray_menu = new QMenu(this);
+
+    _tray_open_action = _tray_menu->addAction(tr("Open Main Interface"));
+    _tray_menu->addSeparator();
+    _tray_website_action = _tray_menu->addAction(tr("Official Website"));
+    _tray_menu->addSeparator();
+    _tray_exit_action = _tray_menu->addAction(tr("Exit"));
+
+    _tray_icon->setContextMenu(_tray_menu);
+
+    // 左键/双击托盘图标：恢复窗口
+    connect(_tray_icon, &QSystemTrayIcon::activated, this,
+            [this](QSystemTrayIcon::ActivationReason reason) {
+        if (reason == QSystemTrayIcon::Trigger ||
+            reason == QSystemTrayIcon::DoubleClick) {
+            if (_was_maximized_before_tray) {
+                showMaximized();
+            } else {
+                showNormal();
+            }
+            raise();
+            activateWindow();
+        }
+    });
+
+    // 打开主界面
+    connect(_tray_open_action, &QAction::triggered, this, [this]() {
+        if (_was_maximized_before_tray) {
+            showMaximized();
+        } else {
+            showNormal();
+        }
+        raise();
+        activateWindow();
+    });
+
+    // 官网
+    connect(_tray_website_action, &QAction::triggered, this, []() {
+        QDesktopServices::openUrl(
+            QUrl("https://github.com/SeaEpoch/MouseClick"));
+    });
+
+    // 退出
+    connect(_tray_exit_action, &QAction::triggered, this, [this]() {
+        _force_quit = true;
+        // 停止连点（如果正在运行）
+        if (NavPage::clickerThread()->isRunning()) {
+            NavPage::clicker()->stop();
+            NavPage::clickerThread()->quit();
+            NavPage::clickerThread()->wait();
+        }
+        qApp->quit();
+    });
+
+    _tray_icon->show();
 }

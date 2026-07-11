@@ -31,7 +31,9 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
       _hotkey_desc(nullptr),
       _theme_toggle_desc(nullptr),
       _language_switch_desc(nullptr),
-      _language_list(nullptr)
+      _language_list(nullptr),
+      _close_button_behavior_desc(nullptr),
+      _close_button_behavior_list(nullptr)
 {
     SettingsAgent& app_settings = SettingsAgent::instance();
 
@@ -166,10 +168,47 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
 
     /********************/
 
+    QWidget* close_btn_behavior_content = new QWidget(page_content);
+    close_btn_behavior_content->setFixedHeight(pageContentUniformHeight);
+
+    QHBoxLayout* close_btn_behavior_layout = new QHBoxLayout(close_btn_behavior_content);
+    close_btn_behavior_layout->setSpacing(0);
+    close_btn_behavior_layout->setContentsMargins(QMargins());
+
+    _close_button_behavior_desc = new QLabel(close_btn_behavior_content);
+    _close_button_behavior_desc->setObjectName(QStringLiteral("close-btn-behavior-desc"));
+    _close_button_behavior_desc->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _close_button_behavior_desc->setFocusPolicy(Qt::NoFocus);
+    _close_button_behavior_desc->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    _close_button_behavior_desc->setText(tr("Close Button Behavior"));
+
+    _close_button_behavior_list = new QComboBox(close_btn_behavior_content);
+    _close_button_behavior_list->setObjectName(QStringLiteral("close-btn-behavior-list"));
+    _close_button_behavior_list->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    _close_button_behavior_list->addItem(tr("Minimize to Tray"), QVariant("minimize"));
+    _close_button_behavior_list->addItem(tr("Exit Program"), QVariant("exit"));
+
+    // 确定当前的关闭按钮行为
+    QString current_behavior = app_settings.CloseButtonBehavior();
+    for (int i = 0; i < _close_button_behavior_list->count(); ++i) {
+        QVariant item_data = _close_button_behavior_list->itemData(i);
+        if (item_data.toString() == current_behavior) {
+            _close_button_behavior_list->setCurrentIndex(i);
+            break;
+        }
+    }
+
+    close_btn_behavior_layout->addWidget(_close_button_behavior_desc);
+    close_btn_behavior_layout->addWidget(_close_button_behavior_list);
+    close_btn_behavior_content->setLayout(close_btn_behavior_layout);
+
+    /********************/
+
     page_content_layout->addWidget(hotkey_content);
     page_content_layout->addWidget(_hotkey_clean);
     page_content_layout->addWidget(theme_toggle_content);
     page_content_layout->addWidget(language_switch_content);
+    page_content_layout->addWidget(close_btn_behavior_content);
     page_content_layout->addStretch();
 
     central_layout->addWidget(_page_title);
@@ -206,6 +245,11 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
             // setLanguage() 内部已触发 translator 热切换 + currentLanguageChanged 信号
         }
     });
+
+    connect(_close_button_behavior_list, &QComboBox::currentIndexChanged, this, [=](int index) {
+        SettingsAgent::instance().setCloseButtonBehavior(
+            _close_button_behavior_list->itemData(index).toString());
+    });
 }
 
 SettingsPage::~SettingsPage()
@@ -227,6 +271,7 @@ void SettingsPage::retranslateUi()
     _hotkey_reader->setPlaceholderText(tr("Please set a shortcut hotkey"));
     _theme_toggle_desc->setText(tr("Dark Theme"));
     _language_switch_desc->setText(tr("Language"));
+    _close_button_behavior_desc->setText(tr("Close Button Behavior"));
 
     // 语言选择下拉框需要重建项目（保留当前选中值）
     // blockSignals 防止 clear/addItem/setCurrentIndex 触发 currentIndexChanged，
@@ -245,6 +290,20 @@ void SettingsPage::retranslateUi()
         }
     }
     _language_list->blockSignals(false);
+
+    // 关闭按钮行为下拉框需要重建项目（保留当前选中值）
+    const QVariant currentBehavior = _close_button_behavior_list->currentData();
+    _close_button_behavior_list->blockSignals(true);
+    _close_button_behavior_list->clear();
+    _close_button_behavior_list->addItem(tr("Minimize to Tray"), QVariant("minimize"));
+    _close_button_behavior_list->addItem(tr("Exit Program"), QVariant("exit"));
+    for (int i = 0; i < _close_button_behavior_list->count(); ++i) {
+        if (_close_button_behavior_list->itemData(i) == currentBehavior) {
+            _close_button_behavior_list->setCurrentIndex(i);
+            break;
+        }
+    }
+    _close_button_behavior_list->blockSignals(false);
 }
 
 void SettingsPage::changeEvent(QEvent *event)

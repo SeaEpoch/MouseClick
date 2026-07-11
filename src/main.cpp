@@ -14,6 +14,7 @@ int main(int argc, char* argv[])
     qputenv("QSG_INFO", "1");
 
     QApplication app(argc, argv);
+    QApplication::setQuitOnLastWindowClosed(false);
 
     TranslationManager::instance().init();
     SettingsAgent& app_settings = SettingsAgent::instance();

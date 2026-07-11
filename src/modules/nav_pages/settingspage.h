@@ -33,6 +33,8 @@ private:
     QLabel* _theme_toggle_desc;
     QLabel* _language_switch_desc;
     QComboBox* _language_list;
+    QLabel* _close_button_behavior_desc;
+    QComboBox* _close_button_behavior_list;
 
     QString& getThemeFiles(Theme::ThemeMode theme) override;
     void retranslateUi();

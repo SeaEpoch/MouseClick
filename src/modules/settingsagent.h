@@ -40,6 +40,9 @@ public:
     bool EnableMemoryConfiguration() const;
     void setEnableMemoryConfiguration(bool memory_configuration);
 
+    QString CloseButtonBehavior() const;
+    void setCloseButtonBehavior(const QString& behavior);
+
 signals:
     void currentThemeChanged(Theme::ThemeMode current_theme);
     void currentLanguageChanged(const QString current_language);
@@ -67,6 +70,7 @@ private:
     const bool _DEFAULT_RANDOMINTERVAL = false;
     const double _DEFAULT_RANDOMINTERVALTIME = 0.02;
     const bool _DEFAULT_MEMORYCONFIGURATION = false;
+    const QString _DEFAULT_CLOSEBUTTONBEHAVIOR = "exit";
 };
 
 #endif // SETTINGSAGENT_H

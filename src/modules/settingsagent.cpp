@@ -114,6 +114,16 @@ void SettingsAgent::setEnableMemoryConfiguration(bool memory_configuration)
     _config["EnableMemoryConfiguration"] = memory_configuration;
 }
 
+QString SettingsAgent::CloseButtonBehavior() const
+{
+    return _config["CloseButtonBehavior"].toString();
+}
+
+void SettingsAgent::setCloseButtonBehavior(const QString& behavior)
+{
+    _config["CloseButtonBehavior"] = behavior;
+}
+
 SettingsAgent::SettingsAgent(QObject *parent)
     : QObject{parent}
 {
@@ -153,6 +163,7 @@ SettingsAgent::SettingsAgent(QObject *parent)
     settings.beginGroup("Settings");
     _config["Language"] = settings.value("Language", _DEFAULT_LANGUAGE);
     _config["Hotkey"] = settings.value("Hotkey", _DEFAULT_HOTKEY);
+    _config["CloseButtonBehavior"] = settings.value("CloseButtonBehavior", _DEFAULT_CLOSEBUTTONBEHAVIOR);
     settings.endGroup();
 
     // 读取 Configuration 配置
@@ -179,6 +190,7 @@ SettingsAgent::SettingsAgent(QObject *parent)
     ensureValid("EnableRandomInterval",     _DEFAULT_RANDOMINTERVAL);
     ensureValid("RandomIntervalTime",       _DEFAULT_RANDOMINTERVALTIME);
     ensureValid("EnableMemoryConfiguration", _DEFAULT_MEMORYCONFIGURATION);
+    ensureValid("CloseButtonBehavior",     _DEFAULT_CLOSEBUTTONBEHAVIOR);
 
     // 主题的特殊检查
     if (!Theme::isValidThemeMode(_config["ThemeMode"].toInt())) {
@@ -218,6 +230,7 @@ SettingsAgent::~SettingsAgent()
     settings.beginGroup("Settings");
     settings.setValue("Language", _config["Language"]);
     settings.setValue("Hotkey", _config["Hotkey"]);
+    settings.setValue("CloseButtonBehavior", _config["CloseButtonBehavior"]);
     settings.endGroup();
 
     settings.beginGroup("Configuration");

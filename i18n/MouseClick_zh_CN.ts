@@ -204,28 +204,60 @@ System default cursor restored.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="84"/>
-        <location filename="../src/mainwindow.cpp" line="286"/>
+        <location filename="../src/mainwindow.cpp" line="88"/>
+        <location filename="../src/mainwindow.cpp" line="104"/>
+        <location filename="../src/mainwindow.cpp" line="122"/>
+        <location filename="../src/mainwindow.cpp" line="324"/>
+        <location filename="../src/mainwindow.cpp" line="340"/>
+        <location filename="../src/mainwindow.cpp" line="403"/>
         <source>MouseClick</source>
         <translation>鼠标连点器</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="218"/>
-        <location filename="../src/mainwindow.cpp" line="287"/>
+        <location filename="../src/mainwindow.cpp" line="256"/>
+        <location filename="../src/mainwindow.cpp" line="325"/>
         <source>Mouse Click</source>
         <translation>鼠标连点</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="219"/>
-        <location filename="../src/mainwindow.cpp" line="288"/>
+        <location filename="../src/mainwindow.cpp" line="257"/>
+        <location filename="../src/mainwindow.cpp" line="326"/>
         <source>Beautify Cursor</source>
         <translation>美化光标</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="220"/>
-        <location filename="../src/mainwindow.cpp" line="289"/>
+        <location filename="../src/mainwindow.cpp" line="258"/>
+        <location filename="../src/mainwindow.cpp" line="327"/>
         <source>Settings</source>
         <translation>软件设置</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="105"/>
+        <source>Clicker started</source>
+        <translation type="unfinished">连点已启动</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="123"/>
+        <source>Clicker stopped</source>
+        <translation type="unfinished">连点已结束</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="331"/>
+        <location filename="../src/mainwindow.cpp" line="407"/>
+        <source>Open Main Interface</source>
+        <translation type="unfinished">打开主界面</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="334"/>
+        <location filename="../src/mainwindow.cpp" line="409"/>
+        <source>Official Website</source>
+        <translation type="unfinished">官网</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="337"/>
+        <location filename="../src/mainwindow.cpp" line="411"/>
+        <source>Exit</source>
+        <translation type="unfinished">退出</translation>
     </message>
 </context>
 <context>
@@ -287,22 +319,22 @@ System default cursor restored.</source>
 <context>
     <name>SettingsAgent</name>
     <message>
-        <location filename="../src/modules/settingsagent.cpp" line="126"/>
+        <location filename="../src/modules/settingsagent.cpp" line="136"/>
         <source>WARNING</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../src/modules/settingsagent.cpp" line="127"/>
+        <location filename="../src/modules/settingsagent.cpp" line="137"/>
         <source>The configuration file &apos;condig.ini&apos; was not found. The program may have been modified. It is recommended to reinstall the program, which may resolve this issue.</source>
         <translation>配置文件“condig.ini”未找到。程序可能已被修改。建议重新安装程序，这可能解决此问题。</translation>
     </message>
     <message>
-        <location filename="../src/modules/settingsagent.cpp" line="129"/>
+        <location filename="../src/modules/settingsagent.cpp" line="139"/>
         <source>Ignore</source>
         <translation>忽略</translation>
     </message>
     <message>
-        <location filename="../src/modules/settingsagent.cpp" line="130"/>
+        <location filename="../src/modules/settingsagent.cpp" line="140"/>
         <source>Reinstall</source>
         <translation>重新安装</translation>
     </message>
@@ -310,56 +342,74 @@ System default cursor restored.</source>
 <context>
     <name>SettingsPage</name>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="76"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="225"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="78"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="269"/>
         <source>Start/End Hotkey</source>
         <translation>&quot;开始/结束&quot;快捷键</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="101"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="226"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="103"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="270"/>
         <source>Hotkey Clean</source>
         <translation>清除快捷键</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="117"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="228"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="119"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="272"/>
         <source>Dark Theme</source>
         <translation>深色模式</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="142"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="229"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="144"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="273"/>
         <source>Language</source>
         <translation>语言设置</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="147"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="237"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="149"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="282"/>
         <source>English(United States)</source>
         <translation>English(United States)</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="148"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="238"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="150"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="283"/>
         <source>Chinese(Simplified)</source>
         <translation>中文（简体）</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="149"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="239"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="151"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="284"/>
         <source>Chinese(Traditional)</source>
         <translation>中文（繁體）</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="224"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="268"/>
         <source>Settings</source>
         <translation type="unfinished">软件设置</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="227"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="271"/>
         <source>Please set a shortcut hotkey</source>
         <translation type="unfinished">请设置一个快捷键</translation>
+    </message>
+    <message>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="183"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="274"/>
+        <source>Close Button Behavior</source>
+        <translation type="unfinished">关闭按钮行为</translation>
+    </message>
+    <message>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="188"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="298"/>
+        <source>Minimize to Tray</source>
+        <translation type="unfinished">最小化至托盘</translation>
+    </message>
+    <message>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="189"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="299"/>
+        <source>Exit Program</source>
+        <translation type="unfinished">退出程序</translation>
     </message>
 </context>
 </TS>
