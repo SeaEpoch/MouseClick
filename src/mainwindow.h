@@ -13,6 +13,9 @@ namespace QWK
 
 template <class Key, class T> class QMap;
 
+class QStackedWidget;
+class SettingsPage;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -33,6 +36,9 @@ private:
 
     QWK::WidgetWindowAgent* _window_agent;
     static QMap<Theme::ThemeMode, QString> _theme_files;
+
+    SettingsPage* _settings_page = nullptr;
+    QStackedWidget* _navigation_pages = nullptr;
 
     // 导航按钮（语言切换需要重新设置文本）
     QPushButton* _nav_mouse_click;

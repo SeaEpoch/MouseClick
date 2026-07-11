@@ -13,6 +13,7 @@
 #include <QDesktopServices>
 #include <QListWidget>
 #include <QStackedWidget>
+#include <QThread>
 #include <QTime>
 #include <QTreeWidget>
 
@@ -83,6 +84,12 @@ MainWindow::MainWindow(QWidget* parent)
     windowInit(tr("MouseClick"), QIcon(":/svg/favicon.svg"));
 
     UIWidgetInit();
+
+    // 连点运行时禁用页面内容区（导航栏保持可交互）
+    connect(_settings_page, &SettingsPage::hotkeyActivated, this, [this]() {
+        bool running = NavPage::clickerThread()->isRunning();
+        _navigation_pages->setEnabled(!running);
+    });
 
     /******************/
 
@@ -242,19 +249,21 @@ void MainWindow::UIWidgetInit()
     navigation_pages->setContentsMargins(QMargins());
 
     // SettingsPage 需要优先声明，这里的设计以后会改进
-    SettingsPage* settings_page = new SettingsPage(settings_page_title, navigation_pages);
+    _settings_page = new SettingsPage(settings_page_title, navigation_pages);
     BeautifyCursorPage* beautify_cursor_page = new BeautifyCursorPage(beautify_cursor_page_title, navigation_pages);
-    MouseClickPage* mouse_click_page = new MouseClickPage(mouse_click_page_title, *settings_page, navigation_pages);
+    MouseClickPage* mouse_click_page = new MouseClickPage(mouse_click_page_title, *_settings_page, navigation_pages);
 
     navigation_pages->addWidget(mouse_click_page);
     navigation_pages->addWidget(beautify_cursor_page);
-    navigation_pages->addWidget(settings_page);
+    navigation_pages->addWidget(_settings_page);
 
     // set Default page
     navigation_pages->setCurrentIndex(0);
 
     central_layout->addWidget(navigation);
     central_layout->addWidget(navigation_pages);
+
+    _navigation_pages = navigation_pages;
 
     connect(navigation, &QTreeWidget::currentItemChanged, this, [=](QTreeWidgetItem *current, QTreeWidgetItem *previous) {
         if (current == mouse_click_item) {

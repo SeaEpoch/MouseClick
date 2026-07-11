@@ -204,26 +204,26 @@ System default cursor restored.</translation>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="83"/>
-        <location filename="../src/mainwindow.cpp" line="277"/>
+        <location filename="../src/mainwindow.cpp" line="84"/>
+        <location filename="../src/mainwindow.cpp" line="286"/>
         <source>MouseClick</source>
         <translation>MouseClick</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="211"/>
-        <location filename="../src/mainwindow.cpp" line="278"/>
+        <location filename="../src/mainwindow.cpp" line="218"/>
+        <location filename="../src/mainwindow.cpp" line="287"/>
         <source>Mouse Click</source>
         <translation>Mouse Click</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="212"/>
-        <location filename="../src/mainwindow.cpp" line="279"/>
+        <location filename="../src/mainwindow.cpp" line="219"/>
+        <location filename="../src/mainwindow.cpp" line="288"/>
         <source>Beautify Cursor</source>
         <translation>Beautify Cursor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="213"/>
-        <location filename="../src/mainwindow.cpp" line="280"/>
+        <location filename="../src/mainwindow.cpp" line="220"/>
+        <location filename="../src/mainwindow.cpp" line="289"/>
         <source>Settings</source>
         <translation>Settings</translation>
     </message>
@@ -232,54 +232,54 @@ System default cursor restored.</translation>
     <name>MouseClickPage</name>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="65"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="274"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="262"/>
         <source>Click Type</source>
         <translation>Click Type</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="70"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="275"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="263"/>
         <source>Left Mouse Button</source>
         <translation>Left Mouse Button</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="71"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="276"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="264"/>
         <source>Right Mouse Button</source>
         <translation>Right Mouse Button</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="72"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="277"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="265"/>
         <source>Middle Mouse Button</source>
         <translation>Middle Mouse Button</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="93"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="278"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="266"/>
         <source>Interval Time</source>
         <translation>Interval Time</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="122"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="279"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="267"/>
         <source>Random Start Interval</source>
         <translation>Random Start Interval</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="147"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="280"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="268"/>
         <source>Set Max Random Interval</source>
         <translation>Set Max Random Interval</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="177"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="281"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="269"/>
         <source>Memory Configuration</source>
         <translation>Memory Configuration</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="273"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="261"/>
         <source>Mouse Click</source>
         <translation type="unfinished">Mouse Click</translation>
     </message>
@@ -311,53 +311,53 @@ System default cursor restored.</translation>
     <name>SettingsPage</name>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="76"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="235"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="225"/>
         <source>Start/End Hotkey</source>
         <translation>Start/End Hotkey</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="101"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="236"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="226"/>
         <source>Hotkey Clean</source>
         <translation>Hotkey Clean</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="117"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="238"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="228"/>
         <source>Dark Theme</source>
         <translation>Dark Theme</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="142"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="239"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="229"/>
         <source>Language</source>
         <translation>Language</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="147"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="247"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="237"/>
         <source>English(United States)</source>
         <translation>English(United States)</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="148"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="248"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="238"/>
         <source>Chinese(Simplified)</source>
         <translation>中文（简体）</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="149"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="249"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="239"/>
         <source>Chinese(Traditional)</source>
         <translation>中文（繁體）</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="234"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="224"/>
         <source>Settings</source>
         <translation type="unfinished">Settings</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="237"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="227"/>
         <source>Please set a shortcut hotkey</source>
         <translation type="unfinished">Please set a shortcut hotkey</translation>
     </message>

@@ -192,16 +192,6 @@ SettingsPage::SettingsPage(const QString& title, QWidget* parent)
     connect(_hotkey_reader, &HotkeyLineEdit::hotkeyActivated,
             this, &SettingsPage::hotkeyActivated);
 
-    connect(_hotkey_reader, &HotkeyLineEdit::hotkeyActivated, this, [=]() {
-        if (NavPage::clickerThread()->isRunning()) {
-            _hotkey_reader->setEnabled(true);
-            _hotkey_clean->setEnabled(true);
-        } else {
-            _hotkey_reader->setEnabled(false);
-            _hotkey_clean->setEnabled(false);
-        }
-    });
-
     connect(_hotkey_reader, &HotkeyLineEdit::currentHotkeyChanged, this, [](const QString& hotkey) {
         SettingsAgent::instance().setHotkey(hotkey);
     });

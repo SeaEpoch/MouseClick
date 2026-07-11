@@ -219,12 +219,6 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
             NavPage::clicker()->stop();
             NavPage::clickerThread()->quit();
             NavPage::clickerThread()->wait();
-
-            _click_type_list->setEnabled(true);
-            interval_time->setEnabled(!random_interval_toggle_btn->isChecked());
-            random_interval_toggle_btn->setEnabled(true);
-            random_interval_time->setEnabled(random_interval_toggle_btn->isChecked());
-            memory_configuration_toggle_btn->setEnabled(true);
         } else {
             Qt::MouseButton btn_type;
             if (_click_type_list->currentIndex() == 0) {
@@ -243,12 +237,6 @@ MouseClickPage::MouseClickPage(const QString& title, SettingsPage& settings_page
 
             NavPage::clicker()->initParameters(btn_type, interval, random_interval_flag, max_random_interval);
             NavPage::clickerThread()->start();   // Note: This should be initiated through a sub-thread.
-
-            _click_type_list->setEnabled(false);
-            interval_time->setEnabled(false);
-            random_interval_toggle_btn->setEnabled(false);
-            random_interval_time->setEnabled(false);
-            memory_configuration_toggle_btn->setEnabled(false);
         }
     });
 }

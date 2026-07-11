@@ -204,26 +204,26 @@ System default cursor restored.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="83"/>
-        <location filename="../src/mainwindow.cpp" line="277"/>
+        <location filename="../src/mainwindow.cpp" line="84"/>
+        <location filename="../src/mainwindow.cpp" line="286"/>
         <source>MouseClick</source>
         <translation>滑鼠連點器</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="211"/>
-        <location filename="../src/mainwindow.cpp" line="278"/>
+        <location filename="../src/mainwindow.cpp" line="218"/>
+        <location filename="../src/mainwindow.cpp" line="287"/>
         <source>Mouse Click</source>
         <translation>滑鼠連點</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="212"/>
-        <location filename="../src/mainwindow.cpp" line="279"/>
+        <location filename="../src/mainwindow.cpp" line="219"/>
+        <location filename="../src/mainwindow.cpp" line="288"/>
         <source>Beautify Cursor</source>
         <translation>美化游標</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="213"/>
-        <location filename="../src/mainwindow.cpp" line="280"/>
+        <location filename="../src/mainwindow.cpp" line="220"/>
+        <location filename="../src/mainwindow.cpp" line="289"/>
         <source>Settings</source>
         <translation>軟體設置</translation>
     </message>
@@ -232,54 +232,54 @@ System default cursor restored.</source>
     <name>MouseClickPage</name>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="65"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="274"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="262"/>
         <source>Click Type</source>
         <translation>點擊類型</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="70"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="275"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="263"/>
         <source>Left Mouse Button</source>
         <translation>滑鼠左鍵</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="71"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="276"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="264"/>
         <source>Right Mouse Button</source>
         <translation>滑鼠右鍵</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="72"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="277"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="265"/>
         <source>Middle Mouse Button</source>
         <translation>滑鼠中鍵</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="93"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="278"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="266"/>
         <source>Interval Time</source>
         <translation>間隔時間</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="122"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="279"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="267"/>
         <source>Random Start Interval</source>
         <translation>隨機間隔時間</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="147"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="280"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="268"/>
         <source>Set Max Random Interval</source>
         <translation>最大隨機時間</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="177"/>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="281"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="269"/>
         <source>Memory Configuration</source>
         <translation>記住配置參數</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="273"/>
+        <location filename="../src/modules/nav_pages/mouseclickpage.cpp" line="261"/>
         <source>Mouse Click</source>
         <translation type="unfinished">滑鼠連點</translation>
     </message>
@@ -311,53 +311,53 @@ System default cursor restored.</source>
     <name>SettingsPage</name>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="76"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="235"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="225"/>
         <source>Start/End Hotkey</source>
         <translation>「開始/結束」快捷鍵</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="101"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="236"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="226"/>
         <source>Hotkey Clean</source>
         <translation>清除快速鍵</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="117"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="238"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="228"/>
         <source>Dark Theme</source>
         <translation>深色模式</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="142"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="239"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="229"/>
         <source>Language</source>
         <translation>語言設定</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="147"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="247"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="237"/>
         <source>English(United States)</source>
         <translation>English(United States)</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="148"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="248"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="238"/>
         <source>Chinese(Simplified)</source>
         <translation>中文（简体）</translation>
     </message>
     <message>
         <location filename="../src/modules/nav_pages/settingspage.cpp" line="149"/>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="249"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="239"/>
         <source>Chinese(Traditional)</source>
         <translation>中文（繁體）</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="234"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="224"/>
         <source>Settings</source>
         <translation type="unfinished">軟體設置</translation>
     </message>
     <message>
-        <location filename="../src/modules/nav_pages/settingspage.cpp" line="237"/>
+        <location filename="../src/modules/nav_pages/settingspage.cpp" line="227"/>
         <source>Please set a shortcut hotkey</source>
         <translation type="unfinished">請設定一個快捷鍵</translation>
     </message>
